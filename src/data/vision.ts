@@ -12,8 +12,6 @@ export const siteMeta = {
 
 export const welcome = {
   lead: `**Prompt Alchemist** is a hub for navigating the **agentic economy** together: an era where clear thinking, delegation to tools, and human judgment compound. Whether you are deeply technical or just getting started, the aim is the same — stay **relevant**, **informed**, and **empowered** as AI and automation reshape how we work.`,
-  charterNote:
-    'This site reflects our member-facing charter: how we talk, what we optimize for, and how that connects to the longer-term mission.',
 } as const;
 
 /** Short charter beats for a scannable band under the hero */
