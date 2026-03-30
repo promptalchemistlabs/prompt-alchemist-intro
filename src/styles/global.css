@@ -1,0 +1,29 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  --font-sans: "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
+
+  --color-ink: oklch(0.18 0.02 270);
+  --color-ink-muted: oklch(0.45 0.02 270);
+  --color-surface: oklch(0.14 0.02 270);
+  --color-surface-raised: oklch(0.2 0.025 270);
+  --color-border: oklch(0.32 0.03 270);
+  --color-ember: oklch(0.72 0.14 55);
+  --color-ember-dim: oklch(0.55 0.12 55);
+  --color-mist: oklch(0.92 0.02 270);
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    @apply bg-surface text-mist antialiased font-sans;
+  }
+
+  ::selection {
+    @apply bg-ember/30 text-mist;
+  }
+}

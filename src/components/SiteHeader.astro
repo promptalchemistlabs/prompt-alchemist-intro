@@ -1,0 +1,46 @@
+---
+import { nav, siteMeta } from '../data/vision';
+---
+
+<header
+  class="sticky top-0 z-50 border-b border-border/80 bg-surface/90 backdrop-blur-md"
+>
+  <div
+    class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-5 py-4 sm:px-8"
+  >
+    <a
+      href="#welcome"
+      class="group flex min-w-0 items-center gap-3"
+      aria-label={`${siteMeta.title} — ${siteMeta.tagline}`}
+    >
+      <img
+        src="/prompt-alchemist-logo.jpg"
+        alt=""
+        width="48"
+        height="48"
+        class="h-12 w-12 shrink-0 rounded-full object-cover ring-1 ring-border/60"
+        loading="eager"
+        decoding="async"
+      />
+      <div class="flex min-w-0 flex-col gap-0.5">
+        <span
+          class="font-display text-lg font-semibold tracking-tight text-mist transition-colors group-hover:text-ember"
+          >{siteMeta.title}</span
+        >
+        <span class="text-xs font-medium uppercase tracking-widest text-ink-muted">{siteMeta.tagline}</span>
+      </div>
+    </a>
+    <nav aria-label="On this page" class="flex flex-wrap justify-end gap-x-4 gap-y-2 text-sm">
+      {
+        nav.map(({ href, label }) => (
+          <a
+            href={href}
+            class="text-ink-muted hover:text-ember transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ember"
+          >
+            {label}
+          </a>
+        ))
+      }
+    </nav>
+  </div>
+</header>
