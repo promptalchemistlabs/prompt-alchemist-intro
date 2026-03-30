@@ -1,17 +1,25 @@
 @import "tailwindcss";
 
 @theme {
-  --font-display: "Fraunces", ui-serif, Georgia, serif;
+  /* Display: Victorian / manuscript; body: readable humanist sans */
+  --font-display: "Playfair Display", ui-serif, Georgia, "Times New Roman", serif;
   --font-sans: "Source Sans 3", ui-sans-serif, system-ui, sans-serif;
+  --font-label: "Cinzel", ui-serif, Georgia, serif;
 
-  --color-ink: oklch(0.18 0.02 270);
-  --color-ink-muted: oklch(0.45 0.02 270);
-  --color-surface: oklch(0.14 0.02 270);
-  --color-surface-raised: oklch(0.2 0.025 270);
-  --color-border: oklch(0.32 0.03 270);
-  --color-ember: oklch(0.72 0.14 55);
-  --color-ember-dim: oklch(0.55 0.12 55);
-  --color-mist: oklch(0.92 0.02 270);
+  /* Logo-adjacent: warm charcoal, parchment, brass — sepia family, not cool gray */
+  --color-ink: #141311;
+  --color-ink-muted: #8a8174;
+  --color-surface: #1c1b18;
+  --color-surface-deep: #141311;
+  --color-surface-raised: #2b2925;
+  --color-surface-parchment: #252320;
+  --color-border: #3d3a35;
+  --color-border-bright: #5c574e;
+  /* "ember" token kept for compatibility — tuned to brass from the logo metalwork */
+  --color-ember: #c4a574;
+  --color-ember-dim: #9a7b50;
+  --color-mist: #e8d9c0;
+  --color-mist-dim: #c9baa5;
 }
 
 @layer base {
@@ -20,10 +28,83 @@
   }
 
   body {
-    @apply bg-surface text-mist antialiased font-sans;
+    @apply text-mist antialiased font-sans;
+    background-color: var(--color-surface);
+    background-image:
+      radial-gradient(ellipse 100% 55% at 50% -15%, rgba(196, 165, 116, 0.09), transparent 52%),
+      radial-gradient(ellipse 80% 40% at 100% 20%, rgba(232, 217, 192, 0.04), transparent 45%),
+      linear-gradient(180deg, rgba(43, 42, 39, 0.9) 0%, var(--color-surface) 28%);
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.35;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-repeat: repeat;
+    background-size: 180px 180px;
+    mix-blend-mode: overlay;
+  }
+
+  body > * {
+    position: relative;
+    z-index: 1;
   }
 
   ::selection {
-    @apply bg-ember/30 text-mist;
+    background-color: rgba(196, 165, 116, 0.35);
+    color: var(--color-surface-deep);
+  }
+}
+
+@layer components {
+  /* Double-line “gauge / plate” frame like the logo border */
+  .plate-border {
+    border: 1px solid var(--color-border-bright);
+    box-shadow:
+      inset 0 0 0 1px var(--color-surface-raised),
+      0 0 0 1px var(--color-border);
+  }
+
+  .plate-card {
+    @apply rounded-2xl bg-surface-parchment/80;
+    border: 1px solid var(--color-border-bright);
+    box-shadow:
+      inset 0 0 0 1px var(--color-surface-raised),
+      0 0 0 1px var(--color-border);
+    background-image: linear-gradient(
+      165deg,
+      rgba(232, 217, 192, 0.04) 0%,
+      transparent 42%,
+      rgba(20, 19, 17, 0.35) 100%
+    );
+  }
+
+  .section-ornament {
+    @apply relative;
+  }
+
+  .section-ornament::after {
+    content: "";
+    display: block;
+    width: 4rem;
+    height: 3px;
+    margin-top: 0.75rem;
+    background: linear-gradient(
+      90deg,
+      var(--color-ember-dim),
+      var(--color-ember),
+      var(--color-ember-dim)
+    );
+    border-radius: 2px;
+    opacity: 0.85;
+  }
+
+  .schematic-bg {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120' viewBox='0 0 120 120'%3E%3Cg fill='none' stroke='%23e8d9c0' stroke-opacity='0.06' stroke-width='0.5'%3E%3Cpath d='M10 30h25M10 38h18M10 46h22'/%3E%3Ccircle cx='85' cy='28' r='6'/%3E%3Cpath d='M79 28h12M85 22v12'/%3E%3Cpath d='M20 75c8-12 22-12 30 0s22 12 30 0'/%3E%3Ctext x='70' y='95' font-size='7' fill='%23e8d9c0' fill-opacity='0.07' font-family='serif'%3EPb NH₃%3C/text%3E%3C/g%3E%3C/svg%3E");
+    background-size: 120px 120px;
   }
 }

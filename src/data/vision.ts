@@ -16,6 +16,27 @@ export const welcome = {
     'This site reflects our member-facing charter: how we talk, what we optimize for, and how that connects to the longer-term mission.',
 } as const;
 
+/** Short charter beats for a scannable band under the hero */
+export const charterHighlights = [
+  {
+    title: 'Invite-only',
+    detail:
+      'A deliberate room for builders who want leverage and repeatability — not an endless open feed.',
+  },
+  {
+    title: 'Signal over noise',
+    detail: 'Curated tech and AI context, plus patterns members actually ship — fewer hot takes, more clarity.',
+  },
+  {
+    title: 'Execution-first',
+    detail: 'Prompting framed as structured thinking: intent, constraints, steps, and checks against real outcomes.',
+  },
+  {
+    title: 'Human in the loop',
+    detail: 'Culture and norms that treat models as collaborators — judgment, dignity, and agency stay centered.',
+  },
+] as const;
+
 export const pillars = [
   {
     id: 'learn',
@@ -83,6 +104,7 @@ export const memberAccess = {
 
 export const nav = [
   { href: '#welcome', label: 'Welcome' },
+  { href: '#charter-glance', label: 'At a glance' },
   { href: '#pillars', label: 'Pillars' },
   { href: '#north-star', label: 'North star' },
   { href: '#backbone', label: 'Mission' },

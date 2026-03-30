@@ -5,6 +5,7 @@ import { richText } from '../lib/rich';
 import {
   audience,
   backbone,
+  charterHighlights,
   communityRules,
   gap,
   memberAccess,
@@ -21,46 +22,100 @@ import {
   <main>
     <section
       id="welcome"
-      class="relative overflow-hidden border-b border-border bg-gradient-to-b from-surface-raised/40 to-surface px-5 py-20 sm:px-8"
+      class="relative overflow-hidden border-b border-border schematic-bg px-5 py-16 sm:px-8 sm:py-24"
     >
       <div
-        class="pointer-events-none absolute -right-24 top-0 h-72 w-72 rounded-full bg-ember/10 blur-3xl"
+        class="pointer-events-none absolute -right-20 top-0 h-80 w-80 rounded-full bg-ember/12 blur-3xl"
         aria-hidden="true"
       />
-      <div class="relative mx-auto max-w-3xl text-center">
-        <p class="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-ember">
-          Community charter
+      <div
+        class="pointer-events-none absolute -left-16 bottom-0 h-64 w-64 rounded-full bg-mist/5 blur-3xl"
+        aria-hidden="true"
+      />
+      <div class="relative mx-auto flex max-w-5xl flex-col items-center gap-12 lg:flex-row lg:items-start lg:gap-16">
+        <div class="flex shrink-0 flex-col items-center gap-3 lg:pt-2">
+          <span
+            class="plate-border relative rounded-full bg-surface-deep p-1.5 shadow-[0_0_0_1px_rgba(196,165,116,0.35),0_12px_40px_-12px_rgba(0,0,0,0.65)]"
+            aria-hidden="true"
+          >
+            <img
+              src="/prompt-alchemist-logo.jpg"
+              alt=""
+              width="176"
+              height="176"
+              class="h-40 w-40 rounded-full object-cover sm:h-44 sm:w-44"
+              loading="eager"
+              decoding="async"
+            />
+          </span>
+          <p class="font-label max-w-[12rem] text-center text-[0.6rem] font-semibold uppercase leading-relaxed tracking-[0.2em] text-mist-dim">
+            Community charter · Type 4
+          </p>
+        </div>
+        <div class="max-w-2xl flex-1 text-center lg:text-left">
+          <p class="font-label mb-3 text-[0.7rem] font-semibold uppercase tracking-[0.28em] text-ember">
+            Welcome
+          </p>
+          <h1 class="font-display text-4xl font-semibold leading-tight text-mist sm:text-5xl lg:text-[2.75rem] lg:leading-[1.12]">
+            {siteMeta.title}
+          </h1>
+          <p class="mt-4 font-display text-xl italic text-ember sm:text-2xl">{siteMeta.tagline}</p>
+          <p
+            class="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-mist/92 lg:mx-0"
+            set:html={richText(welcome.lead)}
+          />
+          <p class="mx-auto mt-6 max-w-xl text-sm leading-relaxed text-ink-muted lg:mx-0">
+            {welcome.charterNote}
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section
+      id="charter-glance"
+      class="relative border-b border-border bg-surface-raised/35 schematic-bg px-5 py-16 sm:px-8"
+    >
+      <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-ember/[0.04] via-transparent to-transparent" aria-hidden="true" />
+      <div class="relative mx-auto max-w-5xl">
+        <h2 class="section-ornament font-display text-3xl font-semibold text-mist sm:text-4xl">
+          Charter at a glance
+        </h2>
+        <p class="mt-5 max-w-2xl text-ink-muted">
+          Four commitments that show up in how we curate, teach, and run the room — before you read the full
+          charter below.
         </p>
-        <h1 class="font-display text-4xl font-semibold leading-tight text-mist sm:text-5xl">
-          {siteMeta.title}
-        </h1>
-        <p class="mt-4 font-display text-xl italic text-ember sm:text-2xl">
-          {siteMeta.tagline}
-        </p>
-        <p
-          class="mx-auto mt-8 max-w-2xl text-lg leading-relaxed text-mist/90"
-          set:html={richText(welcome.lead)}
-        />
-        <p class="mx-auto mt-6 max-w-xl text-sm leading-relaxed text-ink-muted">
-          {welcome.charterNote}
-        </p>
+        <ul class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {
+            charterHighlights.map((item) => (
+              <li class="plate-card flex flex-col p-5">
+                <span class="font-label text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-ember">
+                  {item.title}
+                </span>
+                <p class="mt-3 text-sm leading-relaxed text-mist/88">{item.detail}</p>
+              </li>
+            ))
+          }
+        </ul>
       </div>
     </section>
 
     <section id="pillars" class="border-b border-border px-5 py-16 sm:px-8">
       <div class="mx-auto max-w-5xl">
-        <h2 class="font-display text-3xl font-semibold text-mist sm:text-4xl">What we do</h2>
-        <p class="mt-2 max-w-2xl text-ink-muted">Three pillars — how we learn, build skill, and shape culture together.</p>
+        <h2 class="section-ornament font-display text-3xl font-semibold text-mist sm:text-4xl">What we do</h2>
+        <p class="mt-5 max-w-2xl text-ink-muted">
+          Three pillars — how we learn, build skill, and shape culture together.
+        </p>
         <ul class="mt-12 grid gap-8 md:grid-cols-3">
           {
             pillars.map((p, i) => (
               <li
                 class:list={[
-                  'flex flex-col rounded-2xl border border-border bg-surface-raised/50 p-6 shadow-sm',
-                  i === 1 && 'md:-translate-y-2 md:border-ember/25 md:bg-surface-raised',
+                  'plate-card flex flex-col p-6',
+                  i === 1 &&
+                    'md:-translate-y-2 md:shadow-[0_0_0_1px_rgba(196,165,116,0.28),0_20px_50px_-24px_rgba(0,0,0,0.55)]',
                 ]}
               >
-                <span class="text-xs font-semibold uppercase tracking-widest text-ember">
+                <span class="font-label text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-ember">
                   {p.title}
                 </span>
                 <h3 class="mt-2 font-display text-xl font-semibold text-mist">{p.subtitle}</h3>
@@ -72,12 +127,12 @@ import {
       </div>
     </section>
 
-    <section id="north-star" class="border-b border-border bg-surface-raised/30 px-5 py-16 sm:px-8">
+    <section id="north-star" class="relative border-b border-border bg-surface-raised/25 schematic-bg px-5 py-16 sm:px-8">
       <div class="mx-auto max-w-3xl">
-        <h2 class="font-display text-3xl font-semibold text-mist sm:text-4xl">Ultimate vision</h2>
-        <p class="mt-2 text-ink-muted">Our north star for humans, AI, and robotics in the loop.</p>
+        <h2 class="section-ornament font-display text-3xl font-semibold text-mist sm:text-4xl">Ultimate vision</h2>
+        <p class="mt-5 text-ink-muted">Our north star for humans, AI, and robotics in the loop.</p>
         <blockquote
-          class="mt-10 border-l-4 border-ember pl-6 font-display text-xl italic leading-relaxed text-mist sm:text-2xl"
+          class="plate-card mt-10 border-l-4 border-l-ember pl-6 pr-5 py-5 font-display text-xl italic leading-relaxed text-mist sm:text-2xl"
         >
           {northStar.quote}
         </blockquote>
@@ -87,27 +142,31 @@ import {
 
     <section id="backbone" class="border-b border-border px-5 py-16 sm:px-8">
       <div class="mx-auto max-w-5xl">
-        <h2 class="font-display text-3xl font-semibold text-mist sm:text-4xl">Strategic backbone</h2>
-        <p class="mt-2 text-ink-muted">Belief, outcomes, mission, promise, and how we show up.</p>
-        <dl class="mt-12 grid gap-10 sm:grid-cols-2">
-          <div class="rounded-2xl border border-border bg-surface-raised/40 p-6">
-            <dt class="text-xs font-semibold uppercase tracking-widest text-ember">Core belief</dt>
+        <h2 class="section-ornament font-display text-3xl font-semibold text-mist sm:text-4xl">
+          Strategic backbone
+        </h2>
+        <p class="mt-5 text-ink-muted">Belief, outcomes, mission, promise, and how we show up.</p>
+        <dl class="mt-12 grid gap-6 sm:grid-cols-2">
+          <div class="plate-card p-6">
+            <dt class="font-label text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-ember">Core belief</dt>
             <dd class="mt-3 text-base leading-relaxed text-mist/90">{backbone.coreBelief}</dd>
           </div>
-          <div class="rounded-2xl border border-border bg-surface-raised/40 p-6">
-            <dt class="text-xs font-semibold uppercase tracking-widest text-ember">Vision (outcomes)</dt>
+          <div class="plate-card p-6">
+            <dt class="font-label text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-ember">
+              Vision (outcomes)
+            </dt>
             <dd class="mt-3 text-base leading-relaxed text-mist/90" set:html={richText(backbone.visionOutcomes)} />
           </div>
-          <div class="rounded-2xl border border-border bg-surface-raised/40 p-6 sm:col-span-2">
-            <dt class="text-xs font-semibold uppercase tracking-widest text-ember">Mission</dt>
+          <div class="plate-card p-6 sm:col-span-2">
+            <dt class="font-label text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-ember">Mission</dt>
             <dd class="mt-3 text-base leading-relaxed text-mist/90" set:html={richText(backbone.mission)} />
           </div>
-          <div class="rounded-2xl border border-border bg-surface-raised/40 p-6 sm:col-span-2">
-            <dt class="text-xs font-semibold uppercase tracking-widest text-ember">Brand promise</dt>
+          <div class="plate-card p-6 sm:col-span-2">
+            <dt class="font-label text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-ember">Brand promise</dt>
             <dd class="mt-3 font-display text-lg italic text-mist">{backbone.brandPromise}</dd>
           </div>
-          <div class="rounded-2xl border border-ember/20 bg-ember/5 p-6 sm:col-span-2">
-            <dt class="text-xs font-semibold uppercase tracking-widest text-ember">Positioning</dt>
+          <div class="plate-border rounded-2xl border-ember/25 bg-ember/[0.07] p-6 sm:col-span-2">
+            <dt class="font-label text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-ember">Positioning</dt>
             <dd class="mt-3 text-base leading-relaxed text-mist/90" set:html={richText(backbone.positioning)} />
           </div>
         </dl>
@@ -116,53 +175,73 @@ import {
 
     <section id="audience" class="border-b border-border px-5 py-16 sm:px-8">
       <div class="mx-auto max-w-3xl">
-        <h2 class="font-display text-3xl font-semibold text-mist sm:text-4xl">Who this is for</h2>
-        <div class="mt-10 space-y-8">
-          <div>
-            <h3 class="text-xs font-semibold uppercase tracking-widest text-ember">Primary</h3>
+        <h2 class="section-ornament font-display text-3xl font-semibold text-mist sm:text-4xl">Who this is for</h2>
+        <div class="mt-10 grid gap-6 sm:grid-cols-2">
+          <div class="plate-card p-6">
+            <h3 class="font-label text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-ember">Primary</h3>
             <p class="mt-3 text-base leading-relaxed text-mist/90">{audience.primary}</p>
           </div>
-          <div>
-            <h3 class="text-xs font-semibold uppercase tracking-widest text-ember">Secondary</h3>
+          <div class="plate-card p-6">
+            <h3 class="font-label text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-ember">Secondary</h3>
             <p class="mt-3 text-base leading-relaxed text-mist/90">{audience.secondary}</p>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="gap" class="border-b border-border bg-surface-raised/30 px-5 py-16 sm:px-8">
+    <section id="gap" class="relative border-b border-border bg-surface-raised/25 schematic-bg px-5 py-16 sm:px-8">
       <div class="mx-auto max-w-3xl">
-        <h2 class="font-display text-3xl font-semibold text-mist sm:text-4xl">The gap we address</h2>
-        <p class="mt-8 text-lg leading-relaxed text-mist/90" set:html={richText(gap.body)} />
+        <h2 class="section-ornament font-display text-3xl font-semibold text-mist sm:text-4xl">
+          The gap we address
+        </h2>
+        <div class="plate-card mt-10 p-6 sm:p-8">
+          <p class="text-lg leading-relaxed text-mist/90" set:html={richText(gap.body)} />
+        </div>
       </div>
     </section>
 
     <section id="community" class="border-b border-border px-5 py-16 sm:px-8">
       <div class="mx-auto max-w-3xl">
-        <h2 class="font-display text-3xl font-semibold text-mist sm:text-4xl">Community rules &amp; norms</h2>
-        <ol class="mt-10 list-decimal space-y-5 pl-5 text-base leading-relaxed text-mist/90 marker:text-ember">
+        <h2 class="section-ornament font-display text-3xl font-semibold text-mist sm:text-4xl">
+          Community rules &amp; norms
+        </h2>
+        <ol
+          class="plate-card mt-10 list-decimal space-y-5 py-6 pl-9 pr-6 text-base leading-relaxed text-mist/90 marker:font-label marker:text-[0.7rem] marker:font-semibold marker:text-ember sm:pl-10 sm:pr-8"
+        >
           {communityRules.map((rule) => <li set:html={richText(rule)} />)}
         </ol>
         <p class="mt-8 text-sm text-ink-muted">{memberAccess.footnote}</p>
       </div>
     </section>
 
-    <section id="access" class="px-5 py-16 sm:px-8">
-      <div class="mx-auto max-w-3xl rounded-2xl border border-ember/30 bg-gradient-to-br from-surface-raised to-surface p-8 sm:p-10">
-        <h2 class="font-display text-3xl font-semibold text-mist sm:text-4xl">Member access</h2>
-        <p class="mt-6 text-base leading-relaxed text-mist/90" set:html={richText(memberAccess.body)} />
+    <section id="access" class="schematic-bg px-5 py-16 sm:px-8">
+      <div class="mx-auto max-w-3xl plate-card p-8 sm:p-10">
+        <h2 class="section-ornament font-display text-3xl font-semibold text-mist sm:text-4xl">Member access</h2>
+        <p class="mt-8 text-base leading-relaxed text-mist/90" set:html={richText(memberAccess.body)} />
       </div>
     </section>
   </main>
 
-  <footer class="border-t border-border px-5 py-10 sm:px-8">
-    <div class="mx-auto flex max-w-5xl flex-col gap-6 sm:flex-row sm:items-end sm:justify-between">
+  <footer class="relative border-t border-border-bright/40 bg-surface-deep/80 px-5 py-12 sm:px-8">
+    <div
+      class="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-ember/35 to-transparent"
+      aria-hidden="true"
+    />
+    <div class="mx-auto flex max-w-5xl flex-col gap-8 sm:flex-row sm:items-end sm:justify-between">
       <div>
-        <p class="font-display text-lg font-semibold text-mist">{siteMeta.title}</p>
-        <p class="mt-1 text-sm text-ink-muted">{siteMeta.versionNote}</p>
+        <p class="font-display text-xl font-semibold text-mist">{siteMeta.title}</p>
+        <p class="mt-2 max-w-md font-display text-sm italic text-mist-dim">{siteMeta.tagline}</p>
+        <p class="mt-3 text-sm text-ink-muted">{siteMeta.versionNote}</p>
+        <p class="mt-4 font-mono text-[0.65rem] tracking-wider text-ink-muted/70" aria-hidden="true">
+          H₂O · Pb · NH₃ — clarity compounds
+        </p>
       </div>
       <nav aria-label="Footer" class="flex flex-wrap gap-x-4 gap-y-2 text-sm text-ink-muted">
-        {nav.slice(0, 4).map(({ href, label }) => <a href={href} class="hover:text-ember transition-colors">{label}</a>)}
+        {nav.slice(0, 5).map(({ href, label }) => (
+          <a href={href} class="transition-colors hover:text-ember">
+            {label}
+          </a>
+        ))}
       </nav>
     </div>
   </footer>
