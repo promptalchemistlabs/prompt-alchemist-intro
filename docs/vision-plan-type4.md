@@ -62,7 +62,7 @@ To **teach**, **document**, and **productize** outcome-driven prompting patterns
 
 ### Tagline
 
-**Turn words into outcomes.**
+**Navigate and excel in the agentic economy together.**
 
 ### Positioning
 

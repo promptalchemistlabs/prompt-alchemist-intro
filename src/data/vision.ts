@@ -5,8 +5,8 @@
 export const siteMeta = {
   title: 'Prompt Alchemist',
   description:
-    'A hub for navigating the agentic economy — learn, master prompting as structured thinking, and shift toward sustainable leverage. Turn words into outcomes.',
-  tagline: 'Turn words into outcomes.',
+    'A hub to navigate and excel in the agentic economy together — learn, master prompting as structured thinking, and shift toward sustainable leverage.',
+  tagline: 'Navigate and excel in the agentic economy together.',
   versionNote: 'Community Vision & Charter (Type 4), v4.0 · 2026',
 } as const;
 
@@ -19,19 +19,23 @@ export const welcome = {
 /** Short charter beats for a scannable band under the hero */
 export const charterHighlights = [
   {
+    icon: 'invite' as const,
     title: 'Invite-only',
     detail:
       'A deliberate room for builders who want leverage and repeatability — not an endless open feed.',
   },
   {
+    icon: 'signal' as const,
     title: 'Signal over noise',
     detail: 'Curated tech and AI context, plus patterns members actually ship — fewer hot takes, more clarity.',
   },
   {
+    icon: 'execution' as const,
     title: 'Execution-first',
     detail: 'Prompting framed as structured thinking: intent, constraints, steps, and checks against real outcomes.',
   },
   {
+    icon: 'human' as const,
     title: 'Human in the loop',
     detail: 'Culture and norms that treat models as collaborators — judgment, dignity, and agency stay centered.',
   },

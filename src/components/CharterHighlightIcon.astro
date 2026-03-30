@@ -1,0 +1,63 @@
+---
+export type CharterIcon = 'invite' | 'signal' | 'execution' | 'human';
+
+interface Props {
+  name: CharterIcon;
+  class?: string;
+}
+
+const { name, class: className } = Astro.props;
+---
+
+<span
+  class:list={[
+    'flex h-[4.25rem] w-[4.25rem] shrink-0 items-center justify-center rounded-2xl border border-ember/35 bg-gradient-to-b from-ember/[0.12] to-surface-deep/60 text-ember shadow-[inset_0_1px_0_0_rgba(232,217,192,0.06)]',
+    className,
+  ]}
+  aria-hidden="true"
+>
+  {
+    name === 'invite' && (
+      <svg class="h-9 w-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M8 11V8a4 4 0 1 1 8 0v3" />
+        <rect x="5" y="11" width="14" height="10" rx="2" />
+        <circle cx="12" cy="16" r="1.25" fill="currentColor" stroke="none" />
+        <path d="M12 17v1.5" stroke-width="1.35" />
+      </svg>
+    )
+  }
+  {
+    name === 'signal' && (
+      <svg class="h-9 w-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round">
+        <path d="M12 20v-3" />
+        <path d="M8.5 20v-5.5a3.5 3.5 0 0 1 7 0V20" opacity="0.45" />
+        <path d="M5 20v-8a7 7 0 0 1 14 0v8" opacity="0.7" />
+        <path d="M2 20V9.5a10 10 0 0 1 20 0V20" />
+        <circle cx="12" cy="6" r="1.5" fill="currentColor" stroke="none" />
+      </svg>
+    )
+  }
+  {
+    name === 'execution' && (
+      <svg class="h-9 w-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 3h6l-1.2 4h-3.6L9 3Z" />
+        <path d="M8.5 7h7l-2 13.5a1.5 1.5 0 0 1-3 0L8.5 7Z" />
+        <path d="M10.5 14.5h3" opacity="0.6" />
+        <circle cx="12" cy="11" r="0.9" fill="currentColor" />
+        <path d="M11 11.5c0 1.5 1 2.5 2 3" opacity="0.85" />
+      </svg>
+    )
+  }
+  {
+    name === 'human' && (
+      <svg class="h-9 w-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="9" r="3" />
+        <path d="M6.5 20.5v-1.2a5.5 5.5 0 0 1 11 0v1.2" />
+        <path d="M18.5 5.5a7 7 0 0 1 0 8.2" opacity="0.55" />
+        <path d="M20 4a9.5 9.5 0 0 1 0 11.5" />
+        <path d="M5.5 5.5a7 7 0 0 0 0 8.2" opacity="0.55" />
+        <path d="M4 4a9.5 9.5 0 0 0 0 11.5" />
+      </svg>
+    )
+  }
+</span>

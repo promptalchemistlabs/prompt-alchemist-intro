@@ -1,5 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import CharterHighlightIcon from '../components/CharterHighlightIcon.astro';
+import PillarIcon from '../components/PillarIcon.astro';
 import SiteHeader from '../components/SiteHeader.astro';
 import { richText } from '../lib/rich';
 import {
@@ -33,9 +35,21 @@ import {
         aria-hidden="true"
       />
       <div class="relative mx-auto flex max-w-5xl flex-col items-center gap-12 lg:flex-row lg:items-start lg:gap-16">
-        <div class="flex shrink-0 flex-col items-center gap-3 lg:pt-2">
+        <div class="hero-logo-cluster relative mx-auto shrink-0 lg:mx-0 lg:pt-2">
+          <div class="hero-logo-outer-ring" aria-hidden="true" />
+          <div class="hero-logo-glow-ring" aria-hidden="true" />
+          <div class="hero-logo-glow-ring hero-logo-glow-ring--slow" aria-hidden="true" />
+          <div class="hero-logo-glow-pulse" aria-hidden="true" />
+          <div class="hero-logo-sparkles" aria-hidden="true">
+            <span class="spark spark-1" />
+            <span class="spark spark-2" />
+            <span class="spark spark-3" />
+            <span class="spark spark-4" />
+            <span class="spark spark-5" />
+            <span class="spark spark-6" />
+          </div>
           <span
-            class="plate-border relative rounded-full bg-surface-deep p-1.5 shadow-[0_0_0_1px_rgba(196,165,116,0.35),0_12px_40px_-12px_rgba(0,0,0,0.65)]"
+            class="hero-logo-frame plate-border relative z-[1] block rounded-full bg-surface-deep p-1.5"
             aria-hidden="true"
           >
             <img
@@ -43,20 +57,17 @@ import {
               alt=""
               width="176"
               height="176"
-              class="h-40 w-40 rounded-full object-cover sm:h-44 sm:w-44"
+              class="relative z-[1] h-40 w-40 rounded-full object-cover sm:h-44 sm:w-44"
               loading="eager"
               decoding="async"
             />
           </span>
-          <p class="font-label max-w-[12rem] text-center text-[0.6rem] font-semibold uppercase leading-relaxed tracking-[0.2em] text-mist-dim">
-            Community charter · Type 4
-          </p>
         </div>
         <div class="max-w-2xl flex-1 text-center lg:text-left">
           <p class="font-label mb-3 text-[0.7rem] font-semibold uppercase tracking-[0.28em] text-ember">
             Welcome
           </p>
-          <h1 class="font-display text-4xl font-semibold leading-tight text-mist sm:text-5xl lg:text-[2.75rem] lg:leading-[1.12]">
+          <h1 class="hero-title font-display text-4xl font-semibold leading-tight sm:text-5xl lg:text-[2.75rem] lg:leading-[1.12]">
             {siteMeta.title}
           </h1>
           <p class="mt-4 font-display text-xl italic text-ember sm:text-2xl">{siteMeta.tagline}</p>
@@ -87,11 +98,14 @@ import {
         <ul class="mt-12 grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
           {
             charterHighlights.map((item) => (
-              <li class="plate-card flex flex-col p-5">
-                <span class="font-label text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-ember">
-                  {item.title}
-                </span>
-                <p class="mt-3 text-sm leading-relaxed text-mist/88">{item.detail}</p>
+              <li class="plate-card flex flex-col overflow-hidden p-0">
+                <div class="flex flex-1 flex-col p-5 pt-5">
+                  <CharterHighlightIcon name={item.icon} class="mb-4" />
+                  <span class="font-label text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-ember">
+                    {item.title}
+                  </span>
+                  <p class="mt-3 text-sm leading-relaxed text-mist/88">{item.detail}</p>
+                </div>
               </li>
             ))
           }
@@ -110,16 +124,19 @@ import {
             pillars.map((p, i) => (
               <li
                 class:list={[
-                  'plate-card flex flex-col p-6',
+                  'plate-card flex flex-col overflow-hidden p-0',
                   i === 1 &&
                     'md:-translate-y-2 md:shadow-[0_0_0_1px_rgba(196,165,116,0.28),0_20px_50px_-24px_rgba(0,0,0,0.55)]',
                 ]}
               >
-                <span class="font-label text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-ember">
-                  {p.title}
-                </span>
-                <h3 class="mt-2 font-display text-xl font-semibold text-mist">{p.subtitle}</h3>
-                <p class="mt-4 flex-1 text-sm leading-relaxed text-mist/85" set:html={richText(p.body)} />
+                <div class="flex flex-1 flex-col p-6">
+                  <PillarIcon name={p.id} class="mb-4" />
+                  <span class="font-label text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-ember">
+                    {p.title}
+                  </span>
+                  <h3 class="mt-2 font-display text-xl font-semibold text-mist">{p.subtitle}</h3>
+                  <p class="mt-4 flex-1 text-sm leading-relaxed text-mist/85" set:html={richText(p.body)} />
+                </div>
               </li>
             ))
           }
@@ -128,15 +145,34 @@ import {
     </section>
 
     <section id="north-star" class="relative border-b border-border bg-surface-raised/25 schematic-bg px-5 py-16 sm:px-8">
-      <div class="mx-auto max-w-3xl">
-        <h2 class="section-ornament font-display text-3xl font-semibold text-mist sm:text-4xl">Ultimate vision</h2>
-        <p class="mt-5 text-ink-muted">Our north star for humans, AI, and robotics in the loop.</p>
-        <blockquote
-          class="plate-card mt-10 border-l-4 border-l-ember pl-6 pr-5 py-5 font-display text-xl italic leading-relaxed text-mist sm:text-2xl"
-        >
-          {northStar.quote}
-        </blockquote>
-        <p class="mt-8 text-base leading-relaxed text-mist/85" set:html={richText(northStar.context)} />
+      <div class="mx-auto max-w-5xl">
+        <div class="flex flex-col gap-12 lg:flex-row lg:items-center lg:gap-16">
+          <!-- left: text -->
+          <div class="flex-1">
+            <h2 class="section-ornament font-display text-3xl font-semibold text-mist sm:text-4xl">Ultimate vision</h2>
+            <p class="mt-5 text-ink-muted">Our north star for humans, AI, and robotics in the loop.</p>
+            <blockquote
+              class="plate-card mt-10 border-l-4 border-l-ember py-5 pl-6 pr-5 font-display text-xl italic leading-relaxed text-mist sm:text-2xl"
+            >
+              {northStar.quote}
+            </blockquote>
+            <p class="mt-8 text-base leading-relaxed text-mist/85" set:html={richText(northStar.context)} />
+          </div>
+          <!-- right: image -->
+          <div class="w-full shrink-0 lg:w-[46%]">
+            <div class="plate-border overflow-hidden rounded-2xl shadow-[0_8px_40px_-12px_rgba(0,0,0,0.65)]">
+              <img
+                src="/img/kampung-alchemist.png"
+                alt="A kampung community where humans, AI robots and nature coexist"
+                width="800"
+                height="800"
+                class="w-full object-cover"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 

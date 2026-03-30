@@ -1,0 +1,50 @@
+---
+/** Matches `pillars[].id` in vision data */
+export type PillarIconId = 'learn' | 'master' | 'culture';
+
+interface Props {
+  name: PillarIconId;
+  class?: string;
+}
+
+const { name, class: className } = Astro.props;
+
+const frame =
+  'flex h-[4.25rem] w-[4.25rem] shrink-0 items-center justify-center rounded-2xl border border-ember/35 bg-gradient-to-b from-ember/[0.12] to-surface-deep/60 text-ember shadow-[inset_0_1px_0_0_rgba(232,217,192,0.06)]';
+---
+
+<span class:list={[frame, className]} aria-hidden="true">
+  {
+    name === 'learn' && (
+      <svg class="h-9 w-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M6 4.5h5a2 2 0 0 1 2 2v15a1 1 0 0 0-1-1H6a2 2 0 0 1-2-2V6.5a2 2 0 0 1 2-2Z" />
+        <path d="M18 4.5h-5a2 2 0 0 0-2 2v15a1 1 0 0 1 1-1h5a2 2 0 0 0 2-2V6.5a2 2 0 0 0-2-2Z" />
+        <path d="M9 9h2M9 12h2M9 15h1.5" opacity="0.55" />
+        <path d="M13 9h2M13 12h2M13 15h1.5" opacity="0.55" />
+        <circle cx="12" cy="6" r="1.25" fill="currentColor" stroke="none" />
+      </svg>
+    )
+  }
+  {
+    name === 'master' && (
+      <svg class="h-9 w-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round">
+        <rect x="4" y="3" width="16" height="18" rx="2" />
+        <path d="M8 8h8M8 12h5.5M8 16h6" opacity="0.55" />
+        <path d="M17.5 11.5 19 13l-3.5 3.5-2-2L17.5 11.5Z" fill="currentColor" fill-opacity="0.2" stroke="currentColor" />
+        <path d="m13 16 1.5 1.5" />
+        <path d="M7 21h10" opacity="0.4" />
+      </svg>
+    )
+  }
+  {
+    name === 'culture' && (
+      <svg class="h-9 w-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="6.5" r="2.25" />
+        <path d="M12 4v-1M12 10v-1M8.2 6.5H7M17 6.5h-1.2" opacity="0.4" />
+        <path d="M4 14c2.5-3 5-3 7.5 0s5 3 7.5 0" />
+        <path d="M4 10c2.5-2.8 5-2.8 7.5 0s5 2.8 7.5 0" opacity="0.65" />
+        <path d="M4 18c2.5-2.5 5-2.5 7.5 0s5 2.5 7.5 0" opacity="0.45" />
+      </svg>
+    )
+  }
+</span>
