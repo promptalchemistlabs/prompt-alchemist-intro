@@ -1,0 +1,55 @@
+---
+export type AudienceIconId = 'makers' | 'operators' | 'learners';
+
+interface Props {
+  name: AudienceIconId;
+  class?: string;
+}
+
+const { name, class: className } = Astro.props;
+
+const frame =
+  'flex h-[4.25rem] w-[4.25rem] shrink-0 items-center justify-center rounded-2xl border border-ember/35 bg-gradient-to-b from-ember/[0.12] to-surface-deep/60 text-ember shadow-[inset_0_1px_0_0_rgba(232,217,192,0.06)]';
+---
+
+<span class:list={[frame, className]} aria-hidden="true">
+  {
+    name === 'makers' && (
+      /* compass + sparkle — vision turned into a plan */
+      <svg class="h-9 w-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="12" cy="12" r="8" />
+        <circle cx="12" cy="12" r="1.25" fill="currentColor" stroke="none" />
+        <path d="m14.5 9.5-1.5 2.5-2.5 1.5 1.5-2.5 2.5-1.5Z" fill="currentColor" stroke="none" />
+        <path d="M12 4v1.5M12 18.5V20M4 12h1.5M18.5 12H20" opacity="0.4" />
+        <path d="M19 5l-1.2 1.2" opacity="0.35" />
+        <circle cx="19.5" cy="4.5" r="1" fill="currentColor" stroke="none" opacity="0.7" />
+      </svg>
+    )
+  }
+  {
+    name === 'operators' && (
+      /* interlocking gears — systems, teams, process */
+      <svg class="h-9 w-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round">
+        <circle cx="9" cy="9" r="2.5" />
+        <path d="M9 5.5V4M9 14V12.5M5.5 9H4M14 9h-1.5M7.05 7.05 6 6M12 12l-1.05-1.05M7.05 10.95 6 12M12 6l-1.05 1.05" opacity="0.5" />
+        <circle cx="15.5" cy="15.5" r="3.25" />
+        <path d="M15.5 11.25v-1M15.5 19.75v-1M11.25 15.5h-1M19.75 15.5h-1M12.8 12.8l-.7-.7M18.9 18.9l-.7-.7M12.8 18.2l-.7.7M18.9 12.1l-.7.7" opacity="0.45" />
+        <circle cx="15.5" cy="15.5" r="1.4" fill="currentColor" stroke="none" opacity="0.75" />
+      </svg>
+    )
+  }
+  {
+    name === 'learners' && (
+      /* seedling breaking through soil + upward arrow — growth with intent */
+      <svg class="h-9 w-9" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.35" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M12 20v-9" />
+        <path d="M12 11c0-4 3-6 6-6-1 4-3 6-6 6Z" fill="currentColor" fill-opacity="0.15" />
+        <path d="M12 14c0-3-2.5-5-5.5-5 .8 3 2.5 5 5.5 5Z" fill="currentColor" fill-opacity="0.15" />
+        <path d="M12 11c0-4 3-6 6-6-1 4-3 6-6 6Z" />
+        <path d="M12 14c0-3-2.5-5-5.5-5 .8 3 2.5 5 5.5 5Z" />
+        <path d="M8 20h8" opacity="0.5" />
+        <path d="M14.5 7l1-1.5" opacity="0.4" />
+      </svg>
+    )
+  }
+</span>

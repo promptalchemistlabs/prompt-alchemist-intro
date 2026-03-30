@@ -72,10 +72,11 @@ Prompt Alchemist is **invite-only**, **signal over noise**, **practical over the
 
 ## 5. Who This Is For
 
-**Primary:** founders and builders; product and engineering folks; analysts and operators who want repeatable workflows (marketing, ops, finance, etc.).
+**Makers & builders** *(Founders, Solopreneurs, Product leads, Content creators)*: You have the vision. The gap is getting it out reliably. We give you the prompting frameworks and execution patterns to turn fuzzy ideas into shipped outcomes — fast and repeatably.
 
-**Secondary:** non-technical professionals seeking leverage; students and career switchers; teams exploring adoption and standards.
+**Operators & teams** *(Managers, Analysts, Ops leads, Team leads)*: AI is already in your team's hands, but usage is inconsistent. We help you build a shared standard: common workflows, reliable outputs, and the culture to sustain it.
 
+**Learners & career-builders** *(Students, Career-switchers, Early-career professionals)*: Build the skill before you need it. Prompting as structured thinking compounds — the earlier you develop it, the more leverage it gives you in every role and project ahead.
 ---
 
 ## 6. The Gap We Address

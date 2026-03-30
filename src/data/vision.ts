@@ -6,7 +6,7 @@ export const siteMeta = {
   title: 'Prompt Alchemist',
   description:
     'A hub to navigate and excel in the agentic economy together — learn, master prompting as structured thinking, and shift toward sustainable leverage.',
-  tagline: 'Navigate and excel in the agentic economy together.',
+  tagline: 'Navigate & Excel in the Agentic Economy',
   versionNote: 'Community Vision & Charter (Type 4), v4.0 · 2026',
 } as const;
 
@@ -69,25 +69,26 @@ export const northStar = {
     'Alongside our operational vision: a world where people are **intentionally skilled** at directing intelligent systems so results are **reliable**, not accidental.',
 } as const;
 
-export const backbone = {
-  coreBelief:
-    'The future belongs to those who can collaborate effectively with AI — with clarity, systems thinking, and outcome discipline.',
-  visionOutcomes:
-    'A world where people are skilled at **directing** models — making AI a **predictable collaborator** for productivity, better decisions, and new economic opportunity.',
-  mission:
-    'To **teach**, **document**, and **productize** outcome-driven prompting patterns and workflows so individuals and teams get **reliable results** with AI.',
-  brandPromise:
-    '“I can turn a fuzzy idea into a clear plan, a strong output, and a repeatable workflow — fast.”',
-  positioning:
-    'Prompt Alchemist is **invite-only**, **signal over noise**, **practical over theoretical**, **execution-focused**, and **outcome-driven**. It is a focused space for leverage and repeatability — not an open-ended generic AI chat dump.',
-} as const;
-
-export const audience = {
-  primary:
-    'Founders and builders; product and engineering folks; analysts and operators who want repeatable workflows (marketing, ops, finance, etc.).',
-  secondary:
-    'Non-technical professionals seeking leverage; students and career switchers; teams exploring adoption and standards.',
-} as const;
+export const audienceGroups = [
+  {
+    icon: 'makers' as const,
+    label: 'Makers & builders',
+    roles: ['Founders', 'Solopreneurs', 'Product leads', 'Content creators'],
+    body: 'You have the vision. The gap is getting it out reliably. We give you the **prompting frameworks and execution patterns** to turn fuzzy ideas into shipped outcomes — fast and repeatably.',
+  },
+  {
+    icon: 'operators' as const,
+    label: 'Operators & teams',
+    roles: ['Managers', 'Analysts', 'Ops leads', 'Team leads'],
+    body: "AI is already in your team's hands, but usage is inconsistent. We help you build a **shared standard**: common workflows, reliable outputs, and the culture to sustain it.",
+  },
+  {
+    icon: 'learners' as const,
+    label: 'Learners & career-builders',
+    roles: ['Students', 'Career-switchers', 'Early-career professionals'],
+    body: 'Build the skill **before** you need it. Prompting as structured thinking compounds — the earlier you develop it, the more leverage it gives you in every role and project ahead.',
+  },
+] as const;
 
 export const gap = {
   body: 'Access to AI is everywhere; **direction** is not. Most usage stays inconsistent because knowledge is scattered, “hacks” replace frameworks, and wins are hard to reproduce. We close that gap with **structure**, **shared standards**, and **culture** that rewards what actually works.',
@@ -111,7 +112,6 @@ export const nav = [
   { href: '#charter-glance', label: 'At a glance' },
   { href: '#pillars', label: 'Pillars' },
   { href: '#north-star', label: 'North star' },
-  { href: '#backbone', label: 'Mission' },
   { href: '#audience', label: 'Who it’s for' },
   { href: '#gap', label: 'The gap' },
   { href: '#community', label: 'Community' },
