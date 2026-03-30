@@ -115,3 +115,10 @@ export const nav = [
   { href: '#community', label: 'Community' },
   { href: '#access', label: 'Access' },
 ] as const;
+
+
+export const siteNav = [
+  { href: '/', label: 'Home' },
+  { href: '/periodic-table', label: 'Agentic Periodic Table' },
+  { href: '/about', label: 'About Us' },
+] as const;

@@ -1,15 +1,25 @@
 ---
-import { nav, siteMeta } from '../data/vision';
+import { siteNav, siteMeta } from '../data/vision';
+
+interface Props {
+  noSticky?: boolean;
+}
+
+const { noSticky = false } = Astro.props;
+const currentPath = Astro.url.pathname;
 ---
 
 <header
-  class="sticky top-0 z-50 border-b border-border-bright/50 bg-surface-raised/90 backdrop-blur-md shadow-[inset_0_-1px_0_0_rgba(196,165,116,0.12)]"
+  class:list={[
+    'border-b border-border-bright/50 bg-surface-raised/90 backdrop-blur-md shadow-[inset_0_-1px_0_0_rgba(196,165,116,0.12)]',
+    !noSticky && 'sticky top-0 z-50',
+  ]}
 >
   <div
     class="mx-auto flex max-w-5xl flex-wrap items-center justify-between gap-4 px-5 py-4 sm:px-8"
   >
     <a
-      href="#welcome"
+      href="/"
       class="group flex min-w-0 items-center gap-3"
       aria-label={`${siteMeta.title} — ${siteMeta.tagline}`}
     >
@@ -37,16 +47,27 @@ import { nav, siteMeta } from '../data/vision';
         >
       </div>
     </a>
-    <nav aria-label="On this page" class="flex flex-wrap justify-end gap-x-1 gap-y-2 text-sm sm:gap-x-2">
+    <nav aria-label="Site navigation" class="flex flex-wrap justify-end gap-x-1 gap-y-2 text-sm sm:gap-x-2">
       {
-        nav.map(({ href, label }) => (
-          <a
-            href={href}
-            class="rounded-md px-2 py-1 text-ink-muted transition-colors hover:bg-ember/10 hover:text-ember focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ember sm:px-2.5"
-          >
-            {label}
-          </a>
-        ))
+        siteNav.map(({ href, label }) => {
+          const isActive = href === '/'
+            ? currentPath === '/'
+            : currentPath.startsWith(href);
+          return (
+            <a
+              href={href}
+              class:list={[
+                'rounded-md px-2 py-1 transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ember sm:px-2.5',
+                isActive
+                  ? 'bg-ember/12 text-ember'
+                  : 'text-ink-muted hover:bg-ember/10 hover:text-ember',
+              ]}
+              aria-current={isActive ? 'page' : undefined}
+            >
+              {label}
+            </a>
+          );
+        })
       }
     </nav>
   </div>

@@ -1,0 +1,202 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { groups, periods, getPattern } from '../data/periodic-table';
+import { siteMeta } from '../data/vision';
+
+const groupColorMap: Record<string, string> = {
+  'group-perception':   'border-sky-500/40   bg-sky-500/[0.07]   text-sky-300',
+  'group-reasoning':    'border-violet-500/40 bg-violet-500/[0.07] text-violet-300',
+  'group-memory':       'border-amber-500/40  bg-amber-500/[0.07]  text-amber-300',
+  'group-action':       'border-rose-500/40   bg-rose-500/[0.07]   text-rose-300',
+  'group-coordination': 'border-emerald-500/40 bg-emerald-500/[0.07] text-emerald-300',
+  'group-evaluation':   'border-orange-500/40 bg-orange-500/[0.07] text-orange-300',
+  'group-governance':   'border-indigo-500/40 bg-indigo-500/[0.07] text-indigo-300',
+};
+
+const groupDotMap: Record<string, string> = {
+  'group-perception':   'bg-sky-400',
+  'group-reasoning':    'bg-violet-400',
+  'group-memory':       'bg-amber-400',
+  'group-action':       'bg-rose-400',
+  'group-coordination': 'bg-emerald-400',
+  'group-evaluation':   'bg-orange-400',
+  'group-governance':   'bg-indigo-400',
+};
+---
+
+<BaseLayout
+  title={`Agentic Periodic Table — ${siteMeta.title}`}
+  description="35 agentic AI design patterns arranged by function and autonomy level — a navigable reference for builders working with intelligent systems."
+>
+  <SiteHeader />
+
+  <main>
+    <!-- Hero -->
+    <section class="relative overflow-hidden border-b border-border schematic-bg px-5 py-16 sm:px-8 sm:py-20">
+      <div class="pointer-events-none absolute -right-24 top-0 h-96 w-96 rounded-full bg-ember/10 blur-3xl" aria-hidden="true" />
+      <div class="pointer-events-none absolute -left-20 bottom-0 h-72 w-72 rounded-full bg-violet-500/5 blur-3xl" aria-hidden="true" />
+      <div class="relative mx-auto max-w-5xl">
+        <p class="font-label mb-3 text-[0.7rem] font-semibold uppercase tracking-[0.28em] text-ember">
+          Prompt Alchemist · USP
+        </p>
+        <h1 class="font-display text-4xl font-semibold leading-tight text-mist sm:text-5xl lg:text-[2.75rem] lg:leading-[1.12]">
+          Agentic Periodic Table
+        </h1>
+        <p class="mt-4 font-display text-xl italic text-ember sm:text-2xl">
+          35 design patterns. Two axes. One map.
+        </p>
+        <p class="mt-6 max-w-2xl text-lg leading-relaxed text-mist/88">
+          Every agentic system is built from composable primitives. This table organises 35 patterns
+          along two axes — <strong class="text-mist font-semibold">function</strong> (what job the pattern does) and
+          <strong class="text-mist font-semibold">autonomy level</strong> (how much human oversight it requires) —
+          so you can read a pattern's properties from its position, not just its name.
+        </p>
+      </div>
+    </section>
+
+    <!-- Axis legend -->
+    <section class="border-b border-border bg-surface-raised/30 px-5 py-10 sm:px-8">
+      <div class="mx-auto max-w-5xl">
+        <div class="grid gap-8 lg:grid-cols-2">
+          <!-- Groups legend -->
+          <div>
+            <p class="font-label mb-4 text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-ember">
+              X-axis — Function (7 groups)
+            </p>
+            <ul class="flex flex-wrap gap-2">
+              {groups.map((g) => (
+                <li class:list={['flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold', groupColorMap[g.color]]}>
+                  <span class:list={['h-1.5 w-1.5 rounded-full', groupDotMap[g.color]]} />
+                  {g.label}
+                </li>
+              ))}
+            </ul>
+          </div>
+          <!-- Periods legend -->
+          <div>
+            <p class="font-label mb-4 text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-ember">
+              Y-axis — Autonomy level (5 periods)
+            </p>
+            <ol class="space-y-1.5">
+              {periods.map((p) => (
+                <li class="flex items-baseline gap-3 text-sm">
+                  <span class="font-label w-4 shrink-0 text-right text-[0.65rem] font-semibold text-ember/70">P{p.id}</span>
+                  <span class="font-semibold text-mist">{p.label}</span>
+                  <span class="text-ink-muted">— {p.sublabel}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- The table -->
+    <section class="px-5 py-14 sm:px-8">
+      <div class="mx-auto max-w-6xl">
+        <!-- Column headers -->
+        <div class="mb-3 hidden grid-cols-[5rem_repeat(7,1fr)] gap-2 lg:grid">
+          <div />
+          {groups.map((g) => (
+            <div class:list={['rounded-md border px-2 py-2 text-center', groupColorMap[g.color]]}>
+              <p class="font-label text-[0.6rem] font-semibold uppercase tracking-[0.18em]">{g.label}</p>
+            </div>
+          ))}
+        </div>
+
+        <!-- Rows -->
+        <div class="space-y-2">
+          {periods.map((period) => (
+            <div class="grid grid-cols-1 gap-2 overflow-visible sm:grid-cols-2 md:grid-cols-4 lg:grid-cols-[5rem_repeat(7,1fr)]">
+              <!-- Row label (desktop) -->
+              <div class="hidden items-center lg:flex">
+                <div class="w-full rounded-md border border-border bg-surface-raised/40 px-2 py-3 text-center">
+                  <p class="font-label text-[0.65rem] font-bold uppercase tracking-[0.18em] text-ember">P{period.id}</p>
+                  <p class="mt-0.5 font-label text-[0.58rem] font-semibold uppercase tracking-[0.12em] text-ink-muted">{period.label}</p>
+                </div>
+              </div>
+              <!-- Mobile period label -->
+              <div class="col-span-full flex items-center gap-2 lg:hidden">
+                <span class="font-label text-[0.6rem] font-bold uppercase tracking-[0.2em] text-ember">P{period.id} · {period.label}</span>
+                <span class="h-px flex-1 bg-border" />
+              </div>
+              <!-- Cells -->
+              {groups.map((group) => {
+                const pattern = getPattern(period.id, group.id);
+                if (!pattern) return null;
+                return (
+                  /* Outer wrapper owns group/cell and tooltip — no transform here so
+                     the tooltip is never trapped inside a stacking context */
+                  <div class="group/cell relative">
+                    {/* Scaled card — transform is safe here because tooltip is a sibling */}
+                    <div
+                      class:list={[
+                        'flex cursor-default flex-col rounded-lg border p-3 transition-all duration-200 hover:scale-[1.025] hover:shadow-lg',
+                        groupColorMap[group.color],
+                      ]}
+                    >
+                      <span class="font-mono text-[0.55rem] leading-none opacity-50">{pattern.number}</span>
+                      <p class="mt-1 font-display text-xl font-bold leading-none text-mist">{pattern.symbol}</p>
+                      <p class="mt-1.5 font-label text-[0.58rem] font-semibold uppercase leading-tight tracking-[0.1em] text-mist/80">{pattern.name}</p>
+                    </div>
+                    {/* Tooltip — sibling of the scaled card, escapes its stacking context */}
+                    <div class="pointer-events-none absolute left-0 top-full z-50 mt-2 hidden w-64 rounded-lg border border-border bg-surface-deep p-3 shadow-2xl group-hover/cell:block">
+                      <p class="font-label mb-1.5 text-[0.6rem] font-semibold uppercase tracking-[0.16em] text-ember">{pattern.name}</p>
+                      <p class="text-xs leading-relaxed text-mist/85">{pattern.description}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- Reading the table explainer -->
+    <section class="border-t border-border bg-surface-raised/25 schematic-bg px-5 py-14 sm:px-8">
+      <div class="mx-auto max-w-5xl">
+        <h2 class="section-ornament font-display text-3xl font-semibold text-mist sm:text-4xl">
+          How to read this table
+        </h2>
+        <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            {
+              label: 'Position predicts properties',
+              body: 'Top-left cells are the safest, most human-controlled primitives. Bottom-right cells are the most autonomous and hardest to govern. Reading diagonally tells you how risk scales.',
+            },
+            {
+              label: 'Same row — same trust level',
+              body: 'Patterns in the same period operate at the same autonomy level. They compose naturally with one another — a P2 reasoning pattern pairs well with a P2 memory pattern.',
+            },
+            {
+              label: 'Same column — same job',
+              body: 'Patterns in the same group do the same functional job at different autonomy levels. You can swap a P1 pattern for a P3 one as you scale up trust in the system.',
+            },
+            {
+              label: 'Molecules are real systems',
+              body: 'Any real agent product is a molecule: a combination of patterns across groups and periods. A coding agent, for instance, is typically P3/Rsn + P3/Act + P2/Evl working in concert.',
+            },
+            {
+              label: 'The table is a statement',
+              body: 'Unlike the physical periodic table, this one reflects a proposed taxonomy. Positions encode opinion — and they invite debate. Use it as a thinking tool, not a fixed truth.',
+            },
+            {
+              label: 'Hover any cell for detail',
+              body: 'Each cell shows the pattern symbol and name at a glance. Hover to see the full description and how the pattern relates to the axes it sits on.',
+            },
+          ].map((item) => (
+            <div class="plate-card p-5">
+              <p class="font-label mb-2 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-ember">{item.label}</p>
+              <p class="text-sm leading-relaxed text-mist/85">{item.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <SiteFooter />
+</BaseLayout>

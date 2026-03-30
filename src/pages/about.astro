@@ -1,0 +1,160 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { richText } from '../lib/rich';
+import { siteMeta, northStar, pillars, gap } from '../data/vision';
+---
+
+<BaseLayout
+  title={`About Us — ${siteMeta.title}`}
+  description="Who we are, why we built Prompt Alchemist, and what we are working toward together."
+>
+  <SiteHeader />
+
+  <main>
+    <!-- Hero -->
+    <section class="relative overflow-hidden border-b border-border schematic-bg px-5 py-16 sm:px-8 sm:py-20">
+      <div class="pointer-events-none absolute -right-24 top-0 h-96 w-96 rounded-full bg-ember/10 blur-3xl" aria-hidden="true" />
+      <div class="pointer-events-none absolute -left-20 bottom-0 h-64 w-64 rounded-full bg-mist/5 blur-3xl" aria-hidden="true" />
+      <div class="relative mx-auto max-w-5xl">
+        <p class="font-label mb-3 text-[0.7rem] font-semibold uppercase tracking-[0.28em] text-ember">
+          About Us
+        </p>
+        <h1 class="font-display text-4xl font-semibold leading-tight text-mist sm:text-5xl lg:text-[2.75rem] lg:leading-[1.12]">
+          We built a room for people who want to get better at directing AI — not just using it.
+        </h1>
+        <p class="mt-8 max-w-2xl text-lg leading-relaxed text-mist/88">
+          Prompt Alchemist started as a small invite-only group. The conversation kept returning to the same gap:
+          access to AI is everywhere, but structured thinking about how to use it is not. So we built the space
+          we wanted to be in.
+        </p>
+      </div>
+    </section>
+
+    <!-- Why we exist -->
+    <section class="border-b border-border px-5 py-16 sm:px-8">
+      <div class="mx-auto max-w-5xl">
+        <div class="flex flex-col gap-12 lg:flex-row lg:items-start lg:gap-16">
+          <div class="flex-1">
+            <h2 class="section-ornament font-display text-3xl font-semibold text-mist sm:text-4xl">
+              Why we exist
+            </h2>
+            <div class="plate-card mt-8 p-6 sm:p-8">
+              <p class="text-lg leading-relaxed text-mist/90" set:html={richText(gap.body)} />
+            </div>
+            <p class="mt-8 text-base leading-relaxed text-mist/85">
+              We close that gap with <strong class="text-mist">structure</strong>, shared standards, and a culture that
+              rewards what actually works — not what sounds impressive.
+            </p>
+          </div>
+          <div class="w-full shrink-0 lg:w-[42%]">
+            <div class="plate-border overflow-hidden rounded-2xl shadow-[0_8px_40px_-12px_rgba(0,0,0,0.65)]">
+              <img
+                src="/img/gap-illustration.png"
+                alt="Illustration contrasting scattered AI usage with a structured workflow"
+                width="800"
+                height="530"
+                class="w-full object-cover"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Three pillars -->
+    <section class="border-b border-border bg-surface-raised/25 schematic-bg px-5 py-16 sm:px-8">
+      <div class="mx-auto max-w-5xl">
+        <h2 class="section-ornament font-display text-3xl font-semibold text-mist sm:text-4xl">
+          How we work
+        </h2>
+        <p class="mt-5 max-w-2xl text-ink-muted">
+          Everything we do flows from three pillars.
+        </p>
+        <ul class="mt-12 grid gap-6 md:grid-cols-3">
+          {pillars.map((p) => (
+            <li class="plate-card flex flex-col p-6">
+              <span class="font-label text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-ember">
+                {p.title}
+              </span>
+              <h3 class="mt-2 font-display text-xl font-semibold text-mist">{p.subtitle}</h3>
+              <p class="mt-4 flex-1 text-sm leading-relaxed text-mist/85" set:html={richText(p.body)} />
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <!-- North star -->
+    <section class="border-b border-border px-5 py-16 sm:px-8">
+      <div class="mx-auto max-w-5xl">
+        <div class="flex flex-col gap-12 lg:flex-row lg:items-center lg:gap-16">
+          <div class="w-full shrink-0 lg:w-[46%]">
+            <div class="plate-border overflow-hidden rounded-2xl shadow-[0_8px_40px_-12px_rgba(0,0,0,0.65)]">
+              <img
+                src="/img/kampung-alchemist.png"
+                alt="A kampung community where humans, AI robots and nature coexist"
+                width="800"
+                height="800"
+                class="w-full object-cover"
+                loading="lazy"
+                decoding="async"
+              />
+            </div>
+          </div>
+          <div class="flex-1">
+            <h2 class="section-ornament font-display text-3xl font-semibold text-mist sm:text-4xl">
+              Our north star
+            </h2>
+            <p class="mt-5 text-ink-muted">Where we are ultimately headed.</p>
+            <blockquote
+              class="plate-card mt-8 border-l-4 border-l-ember py-5 pl-6 pr-5 font-display text-xl italic leading-relaxed text-mist sm:text-2xl"
+            >
+              {northStar.quote}
+            </blockquote>
+            <p class="mt-8 text-base leading-relaxed text-mist/85" set:html={richText(northStar.context)} />
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- What makes us different -->
+    <section class="bg-surface-raised/25 schematic-bg px-5 py-16 sm:px-8">
+      <div class="mx-auto max-w-5xl">
+        <h2 class="section-ornament font-display text-3xl font-semibold text-mist sm:text-4xl">
+          What makes us different
+        </h2>
+        <div class="mt-10 grid gap-5 sm:grid-cols-2">
+          {[
+            {
+              label: 'Invite-only by design',
+              body: 'We are not trying to be the biggest community. We are trying to be the most useful one — a deliberate room where signal compounds and trust is real.',
+            },
+            {
+              label: 'Prompting as structured thinking',
+              body: 'We treat prompting as a learnable discipline — not a bag of tricks. Intent, constraints, steps, evaluation: frameworks that transfer across tools and models.',
+            },
+            {
+              label: 'Human in the loop — always',
+              body: 'Our culture centres judgment, dignity, and agency. AI is a collaborator; we shape how it is used, not the other way around.',
+            },
+            {
+              label: 'Original research & frameworks',
+              body: 'From our Agentic Periodic Table to curated weekly signals, we produce resources that do not exist elsewhere — built from practice, not theory.',
+            },
+          ].map((item) => (
+            <div class="plate-card p-6">
+              <p class="font-label mb-3 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-ember">{item.label}</p>
+              <p class="text-sm leading-relaxed text-mist/85">{item.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <SiteFooter />
+</BaseLayout>

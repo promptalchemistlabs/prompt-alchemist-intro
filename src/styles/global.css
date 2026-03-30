@@ -27,6 +27,11 @@
     scroll-behavior: smooth;
   }
 
+  /* Offset anchor scroll for sticky header (≈81px) + home sub-nav (≈37px) + breathing room */
+  [id] {
+    scroll-margin-top: 7.5rem; /* 120px */
+  }
+
   body {
     @apply text-mist antialiased font-sans;
     background-color: var(--color-surface);
