@@ -122,3 +122,52 @@ export const siteNav = [
   { href: '/periodic-table', label: 'Agentic Periodic Table' },
   { href: '/about', label: 'About Us' },
 ] as const;
+
+/** About page — origin story beat */
+export const origin = {
+  body: `Prompt Alchemist started as a small invite-only group. The conversation kept returning to the same gap: access to AI is everywhere, but **structured thinking** about how to use it is not. Wins were hard to reproduce. Frameworks were scarce. "Hacks" filled the void that real craft should occupy. So we built the space we wanted to be in — a deliberate room where signal compounds and trust is real.`,
+} as const;
+
+/** Strategic backbone — core belief, mission, brand promise */
+export const coreBelief = {
+  quote: 'The future belongs to those who can collaborate effectively with AI — with clarity, systems thinking, and outcome discipline.',
+} as const;
+
+export const mission = {
+  statement: 'To teach, document, and productize outcome-driven prompting patterns and workflows so individuals and teams get reliable results with AI.',
+  brandPromise: 'Turn a fuzzy idea into a clear plan, a strong output, and a repeatable workflow — fast.',
+} as const;
+
+/** About page — culture items (what it feels like to belong here) */
+export const cultureItems = [
+  {
+    id: 'deliberate',
+    label: 'Deliberately small',
+    body: `We are not trying to be the biggest community. We curate who comes in because **trust compounds** — the quality of every conversation depends on the quality of every person in the room. Invite-only is a feature, not a constraint.`,
+  },
+  {
+    id: 'signal',
+    label: 'Signal over noise',
+    body: `Most AI content is hype. We are obsessive about the opposite: curated context, patterns members actually ship, and breakdowns that explain **why something works** — not just that it does. Fewer hot takes. More clarity.`,
+  },
+  {
+    id: 'craft',
+    label: 'Prompting as a craft',
+    body: `We treat prompting as a **learnable discipline** with structure, not a bag of tricks. Intent, constraints, steps, evaluation — frameworks that transfer across every tool and model, and that compound the more you practise them.`,
+  },
+  {
+    id: 'vibe',
+    label: 'Vibe working',
+    body: `We advocate for using AI to work **smarter and flow better** — preserving energy for judgment, creativity, and relationships. The goal is sustainable leverage. Not burnout with a chatbot. Not grind dressed up in automation.`,
+  },
+  {
+    id: 'human',
+    label: 'Human always in the loop',
+    body: `Our culture centres **judgment, dignity, and agency**. AI is a collaborator; we shape how it is used, not the other way around. Every framework, norm, and conversation here starts from that premise.`,
+  },
+  {
+    id: 'original',
+    label: 'Original research & frameworks',
+    body: `From the **Agentic Periodic Table** to curated weekly signals, we produce resources that do not exist elsewhere — built from practice, not theory. Type 4 charter, Type 3 playbooks: both run on the same foundation.`,
+  },
+] as const;
