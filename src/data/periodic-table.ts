@@ -4,7 +4,11 @@
  * X-axis (7 groups)  = Function: what job does the pattern do?
  * Y-axis (5 periods) = Autonomy: how much is the human in the loop?
  *
- * Atomic number = (period - 1) * 7 + group  →  1–35, read left-to-right top-to-bottom.
+ * Atomic number = fundamentalness rank (1 = most foundational, 35 = most abstract).
+ * Primary band: period (P1 patterns cluster near 1, P5 near 35).
+ * Secondary: within a period, left columns (Perception) are more essential than right (Governance).
+ * Cross-period hand-tuning: a left-column P2 pattern can outrank a right-column P1 pattern
+ * when real-world usage makes it genuinely more foundational.
  */
 
 export type GroupId =
@@ -55,15 +59,15 @@ export const patterns: Pattern[] = [
   { number: 2,  symbol: 'ZsF', name: 'Zero / Few-shot',          group: 'reasoning',    period: 1, description: 'Providing zero or a handful of examples to guide model behaviour in-context.' },
   { number: 3,  symbol: 'Ctw', name: 'Context Window',           group: 'memory',       period: 1, description: 'Using the active prompt window as the sole memory store for a single exchange.' },
   { number: 4,  symbol: 'Fn',  name: 'Function Call',            group: 'action',       period: 1, description: 'Invoking a single named tool or API from a model response.' },
-  { number: 5,  symbol: 'Sa',  name: 'Solo Agent',               group: 'coordination', period: 1, description: 'One model, one task, no inter-agent communication.' },
-  { number: 6,  symbol: 'Fv',  name: 'Format Validation',        group: 'evaluation',   period: 1, description: 'Checking that output matches an expected schema or format before use.' },
-  { number: 7,  symbol: 'Pg',  name: 'Prompt Guardrails',        group: 'governance',   period: 1, description: 'Hard-coded constraints in the system prompt that limit unsafe or off-topic output.' },
+  { number: 7,  symbol: 'Sa',  name: 'Solo Agent',               group: 'coordination', period: 1, description: 'One model, one task, no inter-agent communication.' },
+  { number: 9,  symbol: 'Fv',  name: 'Format Validation',        group: 'evaluation',   period: 1, description: 'Checking that output matches an expected schema or format before use.' },
+  { number: 11, symbol: 'Pg',  name: 'Prompt Guardrails',        group: 'governance',   period: 1, description: 'Hard-coded constraints in the system prompt that limit unsafe or off-topic output.' },
 
   // Period 2 — Guided
-  { number: 8,  symbol: 'Rag', name: 'RAG',                      group: 'perception',   period: 2, description: 'Retrieval-augmented generation: fetching relevant chunks and injecting them into context before reasoning.' },
-  { number: 9,  symbol: 'CoT', name: 'Chain-of-Thought',         group: 'reasoning',    period: 2, description: 'Prompting the model to reason step-by-step before producing a final answer.' },
-  { number: 10, symbol: 'Sp',  name: 'Scratchpad',               group: 'memory',       period: 2, description: 'A writable working-memory buffer the agent uses to track intermediate state across steps.' },
-  { number: 11, symbol: 'Tc',  name: 'Tool Chaining',            group: 'action',       period: 2, description: 'Sequentially calling multiple tools where each output feeds the next input.' },
+  { number: 5,  symbol: 'Rag', name: 'RAG',                      group: 'perception',   period: 2, description: 'Retrieval-augmented generation: fetching relevant chunks and injecting them into context before reasoning.' },
+  { number: 6,  symbol: 'CoT', name: 'Chain-of-Thought',         group: 'reasoning',    period: 2, description: 'Prompting the model to reason step-by-step before producing a final answer.' },
+  { number: 8,  symbol: 'Sp',  name: 'Scratchpad',               group: 'memory',       period: 2, description: 'A writable working-memory buffer the agent uses to track intermediate state across steps.' },
+  { number: 10, symbol: 'Tc',  name: 'Tool Chaining',            group: 'action',       period: 2, description: 'Sequentially calling multiple tools where each output feeds the next input.' },
   { number: 12, symbol: 'Sh',  name: 'Sequential Handoff',       group: 'coordination', period: 2, description: 'Passing a task linearly from one agent or step to the next.' },
   { number: 13, symbol: 'Sc',  name: 'Self-Critique',            group: 'evaluation',   period: 2, description: 'The model reviews and scores its own output before returning it.' },
   { number: 14, symbol: 'Cp',  name: 'Checkpoint Approval',      group: 'governance',   period: 2, description: 'Human approval gate inserted at defined points in an agentic workflow.' },
