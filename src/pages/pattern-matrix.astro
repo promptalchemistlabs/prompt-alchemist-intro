@@ -1,0 +1,400 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { groups, difficultyLevels, scalabilityLevels, patterns } from '../data/periodic-table';
+import { siteMeta } from '../data/vision';
+
+/**
+ * Sorted-band layout:
+ *   - 4 rows, one per difficulty level band (D1–D4).
+ *   - Each row has exactly 7 slots — one per function group in canonical order.
+ *   - A slot is either a cluster of cards (group present) or a flex-1 gap spacer.
+ *   - At most ONE gap per row, placed at the missing function's position.
+ *   - Row 3 (Advanced) has all 7 groups → no gap, densest row.
+ *   - Row container uses gap-2; the flex-1 gap spacer absorbs all free space,
+ *     so clusters pack tightly left and right of the single gap.
+ *   - Row 3 cards are scaled down so 11 cards span the same width as the
+ *     8 cards of the widest other row (row 2 / Intermediate).
+ *   - Cards: scalabilityRank top-right, difficultyRank bottom-left.
+ *   - Card color = function group.
+ */
+
+// Canonical group order — defines slot positions 0–6
+// Action is placed before Reasoning and Memory
+const GROUP_IDS = ['perception','action','reasoning','memory','coordination','evaluation','governance'] as const;
+type GroupKey = typeof GROUP_IDS[number];
+
+type ColorSet = {
+  border: string; bg: string; symbol: string;
+  dot: string; badge: string; rankTop: string; rankBot: string;
+};
+
+const groupColorMap: Record<string, ColorSet> = {
+  'group-perception':   { border: 'border-sky-500/55',     bg: 'bg-sky-500/[0.11]',     symbol: 'text-sky-200',     dot: 'bg-sky-400',     badge: 'border-sky-500/40 bg-sky-500/[0.15] text-sky-300',     rankTop: 'text-sky-400',    rankBot: 'text-sky-400/75'    },
+  'group-reasoning':    { border: 'border-violet-500/55',  bg: 'bg-violet-500/[0.11]',  symbol: 'text-violet-200',  dot: 'bg-violet-400',  badge: 'border-violet-500/40 bg-violet-500/[0.15] text-violet-300',  rankTop: 'text-violet-400', rankBot: 'text-violet-400/75' },
+  'group-memory':       { border: 'border-amber-500/55',   bg: 'bg-amber-500/[0.11]',   symbol: 'text-amber-200',   dot: 'bg-amber-400',   badge: 'border-amber-500/40 bg-amber-500/[0.15] text-amber-300',   rankTop: 'text-amber-400',  rankBot: 'text-amber-400/75'  },
+  'group-action':       { border: 'border-rose-500/55',    bg: 'bg-rose-500/[0.11]',    symbol: 'text-rose-200',    dot: 'bg-rose-400',    badge: 'border-rose-500/40 bg-rose-500/[0.15] text-rose-300',    rankTop: 'text-rose-400',   rankBot: 'text-rose-400/75'   },
+  'group-coordination': { border: 'border-emerald-500/55', bg: 'bg-emerald-500/[0.11]', symbol: 'text-emerald-200', dot: 'bg-emerald-400', badge: 'border-emerald-500/40 bg-emerald-500/[0.15] text-emerald-300', rankTop: 'text-emerald-400', rankBot: 'text-emerald-400/75' },
+  'group-evaluation':   { border: 'border-orange-500/55',  bg: 'bg-orange-500/[0.11]',  symbol: 'text-orange-200',  dot: 'bg-orange-400',  badge: 'border-orange-500/40 bg-orange-500/[0.15] text-orange-300',  rankTop: 'text-orange-400', rankBot: 'text-orange-400/75' },
+  'group-governance':   { border: 'border-indigo-500/55',  bg: 'bg-indigo-500/[0.11]',  symbol: 'text-indigo-200',  dot: 'bg-indigo-400',  badge: 'border-indigo-500/40 bg-indigo-500/[0.15] text-indigo-300',  rankTop: 'text-indigo-400', rankBot: 'text-indigo-400/75' },
+};
+
+// Row break boundaries (inclusive difficultyRank end)
+const rowBreaks = [7, 15, 26, 35];
+
+// Card dimensions — uniform across all rows
+const CARD_W = 3.82; // rem
+const CARD_H = 4.2;  // rem
+
+type SlotEntry =
+  | { kind: 'cluster'; group: GroupKey; patterns: typeof patterns }
+  | { kind: 'gap' };
+
+type Row = {
+  label: string;
+  sublabel: string;
+  totalPatterns: number;
+  slots: SlotEntry[];
+  cardW: string;
+  cardH: string;
+  symbolSize: string;
+  rankSize: string;
+  nameSize: string;
+};
+
+const sorted = [...patterns].sort((a, b) => a.difficultyRank - b.difficultyRank);
+
+const rowSlices = rowBreaks.map((end, i) => {
+  const start = i === 0 ? 0 : rowBreaks[i - 1];
+  return sorted.filter(p => p.difficultyRank > start && p.difficultyRank <= end);
+});
+
+const rows: Row[] = [];
+let prev = 0;
+for (let i = 0; i < rowBreaks.length; i++) {
+  const slice = rowSlices[i];
+
+  // Map group → sorted patterns for this row
+  const byGroup = new Map<GroupKey, typeof patterns>();
+  for (const p of slice) {
+    const g = p.group as GroupKey;
+    if (!byGroup.has(g)) byGroup.set(g, []);
+    byGroup.get(g)!.push(p);
+  }
+  for (const arr of byGroup.values()) arr.sort((a, b) => a.difficultyRank - b.difficultyRank);
+
+  // Build 7 slots — cluster or gap
+  const slots: SlotEntry[] = GROUP_IDS.map(g =>
+    byGroup.has(g)
+      ? { kind: 'cluster', group: g, patterns: byGroup.get(g)! }
+      : { kind: 'gap' }
+  );
+
+  const minRank = Math.min(...slice.map(p => p.difficultyRank));
+  const maxRank = Math.max(...slice.map(p => p.difficultyRank));
+  const levelIds = [...new Set(slice.map(p => p.difficulty))].sort();
+  const levelLabels = levelIds.map(id => difficultyLevels.find(d => d.id === id)?.label ?? '').join(' · ');
+
+  rows.push({
+    label: levelLabels,
+    sublabel: `Difficulty ranks ${minRank}–${maxRank}`,
+    totalPatterns: slice.length,
+    slots,
+    cardW:      '3.82rem',
+    cardH:      '4.2rem',
+    symbolSize: '0.873rem',
+    rankSize:   '0.422rem',
+    nameSize:   '0.320rem',
+  });
+  prev = rowBreaks[i];
+}
+---
+
+<BaseLayout
+  title={`Pattern Matrix — ${siteMeta.title}`}
+  description="35 agentic AI design patterns ranked 1–35 by difficulty and scalability, sorted easiest to hardest, clustered by function, coloured by group."
+>
+  <SiteHeader />
+
+  <main>
+    <!-- Hero -->
+    <section class="relative overflow-hidden border-b border-border schematic-bg px-5 py-16 sm:px-8 sm:py-20">
+      <div class="pointer-events-none absolute -right-24 top-0 h-96 w-96 rounded-full bg-ember/10 blur-3xl" aria-hidden="true" />
+      <div class="pointer-events-none absolute -left-20 bottom-0 h-72 w-72 rounded-full bg-violet-500/5 blur-3xl" aria-hidden="true" />
+      <div class="relative mx-auto max-w-5xl">
+        <p class="font-label mb-3 text-[0.7rem] font-semibold uppercase tracking-[0.28em] text-ember">
+          Prompt Alchemist · USP
+        </p>
+        <h1 class="font-display text-4xl font-semibold leading-tight text-mist sm:text-5xl lg:text-[2.75rem] lg:leading-[1.12]">
+          Pattern Matrix
+        </h1>
+        <p class="mt-4 font-display text-xl italic text-ember sm:text-2xl">
+          Ranked by difficulty. Clustered by function.
+        </p>
+        <p class="mt-6 max-w-2xl text-lg leading-relaxed text-mist/88">
+          Every pattern holds two unique ranks out of 35.
+          The <strong class="text-mist font-semibold">top number</strong> is its scalability rank
+          (1 = most fixed, 35 = most composable).
+          The <strong class="text-mist font-semibold">bottom-left number</strong> is its difficulty rank
+          (1 = easiest to learn, 35 = hardest).
+          Cards flow left-to-right from easiest to hardest, grouped by function within each row.
+        </p>
+        <a
+          href="/periodic-table"
+          class="mt-8 inline-flex items-center gap-2 rounded-md border border-border px-4 py-2 text-sm text-ink-muted transition-colors hover:border-ember/40 hover:text-ember"
+        >
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+            <path d="M8.5 2.5L4 7l4.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Switch to Periodic Table view
+        </a>
+      </div>
+    </section>
+
+    <!-- Legend -->
+    <section class="border-b border-border bg-surface-raised/30 px-5 py-8 sm:px-8">
+      <div class="mx-auto max-w-6xl">
+        <div class="flex flex-wrap items-start gap-10">
+
+          <!-- Card anatomy -->
+          <div class="shrink-0">
+            <p class="font-label mb-3 text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-ember">Card anatomy</p>
+            <!-- Mini card mockup -->
+            <div class="relative inline-flex h-[5.75rem] w-[5.25rem] flex-col rounded-lg border border-border/60 bg-surface-raised/50 p-2">
+              <div class="flex items-start justify-end">
+                <span class="font-mono text-[0.58rem] font-bold text-mist/55">S#</span>
+              </div>
+              <p class="mt-0.5 font-display text-[1.2rem] font-bold leading-none text-mist/30">Ab</p>
+              <p class="mt-1 flex-1 font-label text-[0.44rem] font-semibold uppercase leading-tight tracking-[0.06em] text-mist/40">Pattern Name</p>
+              <div class="mt-auto">
+                <span class="font-mono text-[0.58rem] font-bold text-mist/55">D#</span>
+              </div>
+              <!-- annotations -->
+              <span class="pointer-events-none absolute -right-[5.5rem] top-0.5 whitespace-nowrap text-[0.52rem] text-ink-muted">← Scalability</span>
+              <span class="pointer-events-none absolute -right-[5.5rem] bottom-0.5 whitespace-nowrap text-[0.52rem] text-ink-muted">← Difficulty</span>
+            </div>
+            <div class="mt-8 space-y-1 text-[0.62rem] text-ink-muted">
+              <p><span class="font-mono font-bold text-mist/60">D1</span> = easiest · <span class="font-mono font-bold text-mist/60">D35</span> = hardest</p>
+              <p><span class="font-mono font-bold text-mist/60">S1</span> = most fixed · <span class="font-mono font-bold text-mist/60">S35</span> = most composable</p>
+            </div>
+          </div>
+
+          <!-- Spacer -->
+          <div class="hidden h-auto w-px bg-border lg:block" />
+
+          <!-- Difficulty scale -->
+          <div class="shrink-0">
+            <p class="font-label mb-3 text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-ember">Difficulty levels</p>
+            <ol class="space-y-1">
+              {difficultyLevels.map(d => (
+                <li class="flex items-baseline gap-2 text-xs">
+                  <span class="font-label w-16 shrink-0 font-semibold text-mist">{d.label}</span>
+                  <span class="text-ink-muted">{d.sublabel}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+
+          <!-- Scalability scale -->
+          <div class="shrink-0">
+            <p class="font-label mb-3 text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-ember">Scalability levels</p>
+            <ol class="space-y-1">
+              {scalabilityLevels.map(s => (
+                <li class="flex items-baseline gap-2 text-xs">
+                  <span class="font-label w-20 shrink-0 font-semibold text-mist">{s.label}</span>
+                  <span class="text-ink-muted">{s.sublabel}</span>
+                </li>
+              ))}
+            </ol>
+          </div>
+
+          <!-- Group colour key -->
+          <div class="flex-1 min-w-[14rem]">
+            <p class="font-label mb-3 text-[0.65rem] font-semibold uppercase tracking-[0.22em] text-ember">Color — Function</p>
+            <ul class="flex flex-wrap gap-2">
+              {groups.map((g) => {
+                const c = groupColorMap[g.color];
+                return (
+                  <li class:list={['flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold', c.badge]}>
+                    <span class:list={['h-1.5 w-1.5 rounded-full', c.dot]} />
+                    {g.label}
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- Pattern bands -->
+    <section class="px-5 py-12 sm:px-8">
+      <div class="mx-auto max-w-6xl space-y-10">
+        {rows.map((row, rowIdx) => (
+          <div>
+            <!-- Band header -->
+            <div class="mb-3 flex items-center gap-3 border-b border-border/40 pb-2.5">
+              <span class="font-display text-sm font-semibold text-mist">{row.label}</span>
+              <span class="text-xs text-ink-muted">{row.sublabel}</span>
+              <span class="ml-auto font-label text-[0.55rem] text-ink-muted/50">
+                {row.totalPatterns} pattern{row.totalPatterns !== 1 ? 's' : ''}
+              </span>
+            </div>
+
+            <!--
+              7-slot row, gap-2 between every slot.
+              Cluster slots are shrink-0; the single gap slot is flex-1 so it
+              absorbs all free space — clusters pack tightly, gap lands at the
+              missing function's position. Row 3 has no gap slot.
+              Row 3 cards are scaled down so 11 cards span the same total
+              width as the 8 cards of the widest other row.
+            -->
+            <div class="flex items-start gap-2">
+              {row.slots.map((slot, slotIdx) => {
+                if (slot.kind === 'gap') {
+                  // Sole flexible spacer — grows to fill all remaining space
+                  return <div class="flex-1" aria-hidden="true" />;
+                }
+
+                const isRightHalf = slotIdx >= 4;
+                return (
+                  <div class="flex shrink-0 items-start gap-1">
+                    {slot.patterns.map((p) => {
+                      const c = groupColorMap[`group-${p.group}`];
+                      return (
+                        <div class="group/card relative">
+                          <div
+                            class:list={[
+                              'relative flex cursor-default flex-col rounded-lg border p-2 transition-all duration-150 hover:scale-[1.06] hover:shadow-xl hover:z-10',
+                              c.border,
+                              c.bg,
+                            ]}
+                            style={`width:${row.cardW};height:${row.cardH}`}
+                          >
+                            <!-- Scalability rank — top right -->
+                            <div class="flex items-start justify-end">
+                              <span
+                                class:list={['font-mono font-bold leading-none tabular-nums', c.rankTop]}
+                                style={`font-size:${row.rankSize}`}
+                              >{p.scalabilityRank}</span>
+                            </div>
+
+                            <!-- Symbol -->
+                            <p
+                              class:list={['mt-0.5 font-display font-bold leading-none', c.symbol]}
+                              style={`font-size:${row.symbolSize}`}
+                            >{p.symbol}</p>
+
+                            <!-- Name -->
+                            <p
+                              class="mt-1 flex-1 font-label font-semibold uppercase leading-tight tracking-[0.06em] text-mist/65"
+                              style={`font-size:${row.nameSize}`}
+                            >{p.name}</p>
+
+                            <!-- Difficulty rank — bottom left -->
+                            <div class="mt-auto">
+                              <span
+                                class:list={['font-mono font-bold leading-none tabular-nums', c.rankBot]}
+                                style={`font-size:${row.rankSize}`}
+                              >{p.difficultyRank}</span>
+                            </div>
+                          </div>
+
+                          <!-- Tooltip: below for top 2 rows, above for bottom 2; left/right by slot half -->
+                          <div class:list={[
+                            'pointer-events-none absolute z-50 hidden w-60 rounded-xl border border-border bg-surface-deep p-3.5 shadow-2xl group-hover/card:block',
+                            rowIdx < 2 ? 'top-full mt-1.5' : 'bottom-full mb-1.5',
+                            isRightHalf ? 'right-0' : 'left-0',
+                          ]}>
+                            <div class="mb-1.5 flex items-center gap-1.5">
+                              <span class:list={['h-1.5 w-1.5 rounded-full shrink-0', c.dot]} />
+                              <p class="font-label text-[0.56rem] font-semibold uppercase tracking-[0.14em] text-ember">{p.name}</p>
+                            </div>
+                            <p class="text-[0.7rem] leading-relaxed text-mist/85">{p.description}</p>
+                            <div class="mt-2.5 grid grid-cols-2 gap-2.5 border-t border-border/50 pt-2.5">
+                              <div>
+                                <p class="font-label text-[0.5rem] font-semibold uppercase tracking-[0.1em] text-ember/60 mb-0.5">Difficulty</p>
+                                <p class="font-mono text-base font-bold leading-none text-mist/80">#{p.difficultyRank}</p>
+                                <p class="mt-0.5 text-[0.58rem] text-ink-muted">{difficultyLevels.find(d => d.id === p.difficulty)?.label}</p>
+                              </div>
+                              <div>
+                                <p class="font-label text-[0.5rem] font-semibold uppercase tracking-[0.1em] text-ember/60 mb-0.5">Scalability</p>
+                                <p class="font-mono text-base font-bold leading-none text-mist/80">#{p.scalabilityRank}</p>
+                                <p class="mt-0.5 text-[0.58rem] text-ink-muted">{scalabilityLevels.find(s => s.id === p.scalability)?.label}</p>
+                              </div>
+                            </div>
+                            <div class="mt-2 border-t border-border/50 pt-2 flex items-center gap-1.5">
+                              <span class:list={['h-1.5 w-1.5 rounded-full shrink-0', c.dot]} />
+                              <p class:list={['text-[0.6rem] font-semibold capitalize', c.rankTop]}>{p.group}</p>
+                            </div>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <!-- Difficulty direction indicator -->
+      <div class="mx-auto mt-8 max-w-6xl">
+        <div class="flex items-center gap-3 text-[0.6rem] text-ink-muted/50">
+          <span class="font-mono font-bold text-ember/50">D1</span>
+          <div class="flex-1 h-px bg-gradient-to-r from-ember/25 via-border/20 to-border/5" />
+          <span class="font-label uppercase tracking-[0.14em]">difficulty increases →</span>
+          <div class="flex-1 h-px bg-gradient-to-r from-border/5 via-border/20 to-ember/25" />
+          <span class="font-mono font-bold text-ember/50">D35</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- How to read -->
+    <section class="border-t border-border bg-surface-raised/25 schematic-bg px-5 py-14 sm:px-8">
+      <div class="mx-auto max-w-5xl">
+        <h2 class="section-ornament font-display text-3xl font-semibold text-mist sm:text-4xl">
+          How to read this view
+        </h2>
+        <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          {[
+            {
+              label: 'Top-left = easiest to start',
+              body: 'Cards in the first row carry the lowest difficulty ranks (D1–D7). These patterns need no infrastructure — just a prompt or a simple call.',
+            },
+            {
+              label: 'Bottom-right = expert territory',
+              body: 'The last row holds the highest difficulty ranks (D27–D35). These patterns demand deep architectural investment, operational discipline, and ongoing tuning.',
+            },
+            {
+              label: 'Color clusters = same function',
+              body: 'Within each row, cards are sorted by function group so matching colors sit together. Trace a color across rows to see how that function scales in complexity.',
+            },
+            {
+              label: 'Top number = scalability rank',
+              body: 'The number in the top-right corner ranks the pattern\'s scalability from 1 (most fixed, hard-coded) to 35 (most composable, adapts to any context). High top number = high leverage at scale.',
+            },
+            {
+              label: 'Bottom-left number = difficulty rank',
+              body: 'The number in the bottom-left ranks how hard the pattern is to learn and use, from 1 (minimal setup) to 35 (deep expertise required). This is also the card\'s position in the left-to-right flow.',
+            },
+            {
+              label: 'Hover for full detail',
+              body: 'Hover any card to see the full description, both rank numbers with their level labels, and the function group — all in context.',
+            },
+          ].map((item) => (
+            <div class="plate-card p-5">
+              <p class="font-label mb-2 text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-ember">{item.label}</p>
+              <p class="text-sm leading-relaxed text-mist/85">{item.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <SiteFooter />
+</BaseLayout>

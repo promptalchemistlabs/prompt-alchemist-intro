@@ -120,6 +120,7 @@ export const nav = [
 export const siteNav = [
   { href: '/', label: 'Home' },
   { href: '/periodic-table', label: 'Agentic Periodic Table' },
+  { href: '/pattern-matrix', label: 'Pattern Matrix' },
   { href: '/about', label: 'About Us' },
 ] as const;
 
