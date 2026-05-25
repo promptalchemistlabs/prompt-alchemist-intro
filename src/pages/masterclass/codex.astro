@@ -1,0 +1,833 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+
+const pageTitle = 'Codex Masterclass | Prompt Alchemist';
+const pageDescription =
+  'A 4-hour hands-on Codex masterclass for non-technical professionals who want to stay ahead with AI, turn ideas into first versions, and build leverage.';
+const tallyEmbedUrl =
+  'https://tally.so/embed/NpRO8N?alignLeft=1&hideTitle=1&dynamicHeight=1';
+
+const lessonNav = [
+  { href: '#problem', label: 'Problem' },
+  { href: '#solution', label: 'Solution' },
+  { href: '#why-now', label: 'Why now' },
+  { href: '#lesson-plan', label: 'Lesson plan' },
+  { href: '#why-this', label: 'Why this' },
+  { href: '#outcomes', label: 'Outcomes' },
+  { href: '#investment', label: 'Investment' },
+  { href: '#waitlist', label: 'Waitlist' },
+] as const;
+
+const proofPoints = [
+  { value: '4h', label: 'live practical session for busy professionals' },
+  { value: '0', label: 'coding background required to begin' },
+  { value: '1', label: 'AI-built first version or action plan' },
+] as const;
+
+const problemPoints = [
+  'You know AI is important, but every week brings a new tool, new model, and new opinion.',
+  'You use ChatGPT for small tasks, yet it has not changed your career, business, or output meaningfully.',
+  'You have ideas, but turning them into something testable still feels blocked by technical people, time, or uncertainty.',
+] as const;
+
+const solutionSteps = [
+  {
+    title: 'Bring one real goal',
+    body: 'A side idea, work process, career project, content system, customer journey, or business problem.',
+  },
+  {
+    title: 'Turn it into clear instructions',
+    body: 'You learn how to describe the goal, audience, boundaries, examples, and what good looks like in plain English.',
+  },
+  {
+    title: 'Let Codex help you build',
+    body: 'You guide Codex step by step to create a first version, improve it, and understand what to ask for next.',
+  },
+] as const;
+
+const whyNow = [
+  {
+    title: 'AI is moving from answers to action',
+    body: 'Codex is not just for writing code. It can turn clear instructions into websites, tools, automations, drafts, and experiments. The new skill is directing work clearly.',
+  },
+  {
+    title: 'Non-technical people can finally build',
+    body: 'You do not need to become an engineer to create a first version of an idea. You need to know how to explain the goal, set boundaries, and review what AI produces.',
+  },
+  {
+    title: 'AI literacy is becoming career leverage',
+    body: 'The people who get ahead will not only use chatbots. They will know how to turn ideas into useful work again and again.',
+  },
+  {
+    title: 'You will speak better with technical teams',
+    body: 'Codex helps you understand how digital work is shaped: what to build, who it is for, what can go wrong, and what “done” means.',
+  },
+] as const;
+
+const differentiators = [
+  {
+    title: 'Built for non-technical people',
+    body: 'No scary setup-first approach. We start from your goal, then show only the tool steps needed to move that goal forward.',
+  },
+  {
+    title: 'Less theory, more doing',
+    body: 'You will not sit through another “future of AI” lecture. You will practise giving instructions, building, reviewing, and improving.',
+  },
+  {
+    title: 'Local operator lens',
+    body: 'Designed for ambitious professionals, founders, and career switchers in Singapore who want practical leverage now.',
+  },
+  {
+    title: 'You leave with reusable assets',
+    body: 'Templates, checklists, a 30-day plan, and a first output you can continue improving after the session.',
+  },
+] as const;
+
+const modules = [
+  {
+    number: '01',
+    title: 'Hour 1: AI advantage mindset',
+    promise: 'Understand why Codex changes the game for non-technical people and what work you can now direct yourself.',
+    lessons: ['What Codex can and cannot do', 'From chatbot user to AI operator', 'Choosing the right use cases'],
+    lab: 'Turn one personal or business problem into clear instructions Codex can follow.',
+  },
+  {
+    number: '02',
+    title: 'Hour 2: Idea to first version',
+    promise: 'Learn the instruction pattern that turns fuzzy ideas into a simple landing page, internal tool, or working draft.',
+    lessons: ['Goal, audience, boundaries, examples', 'Asking Codex for a plan before it builds', 'Building by describing what you want'],
+    lab: 'Create the first version of your idea.',
+  },
+  {
+    number: '03',
+    title: 'Hour 3: Improve, test, and polish',
+    promise: 'Move beyond first drafts. Use Codex to critique, refine, check, and make your output presentable.',
+    lessons: ['Reviewing AI output as a non-technical person', 'Useful checks: broken flows, unclear copy, missing states', 'Prompting for better UX and stronger positioning'],
+    lab: 'Upgrade your first version with a review-and-improve loop.',
+  },
+  {
+    number: '04',
+    title: 'Hour 4: Your AI operating system',
+    promise: 'Leave with repeatable templates for using Codex in work, learning, side projects, and business experiments.',
+    lessons: ['Personal AI work map', 'When to use Codex vs ChatGPT vs human help', 'Next 30-day action plan'],
+    lab: 'Build your personal Codex playbook and next project plan.',
+  },
+] as const;
+
+const audiences = [
+  {
+    title: 'Professionals',
+    body: 'You want to stay relevant, work faster, and understand how AI can help you produce real outputs.',
+  },
+  {
+    title: 'Founders and solopreneurs',
+    body: 'You have ideas but need a faster way to create a first version, test demand, and communicate with builders.',
+  },
+  {
+    title: 'Career switchers',
+    body: 'You want practical AI fluency that makes you more valuable without waiting for a formal technical background.',
+  },
+  {
+    title: 'Managers and operators',
+    body: 'You want to understand what AI can automate, how to give clear instructions, and where the risks are.',
+  },
+] as const;
+
+const takeaways = [
+  'A simple Codex instruction template for any idea',
+  'A first version or AI-assisted process started during class',
+  'A review checklist for spotting weak AI output',
+  'A 30-day personal AI upskilling plan',
+  'A founder/operator lens for what to automate first',
+  'Confidence to guide builders and AI tools clearly',
+] as const;
+
+const pricing = [
+  { name: 'Early waitlist', price: 'SGD 197', note: 'Best for the first validation cohort.' },
+  { name: 'Regular seat', price: 'SGD 297', note: 'Recommended public cohort price after proof and testimonials.' },
+  { name: 'Private team', price: 'From SGD 2,500', note: 'For companies, teams, and custom examples.' },
+] as const;
+
+const faqs = [
+  {
+    question: 'Do I need to be an expert engineer?',
+    answer: 'No. This version is designed for non-technical professionals. You should be curious, willing to try tools, and ready to bring a real work or business problem.',
+  },
+  {
+    question: 'Will this be tool demo or hands-on execution?',
+    answer: 'Hands-on. Each hour connects a concept to a guided exercise so you leave with a usable way of working, not just inspiration.',
+  },
+  {
+    question: 'Why Codex instead of another AI tool?',
+    answer: 'Chatbots help you think and draft. Codex helps you turn instructions into working digital outputs. That makes it a practical bridge from idea to execution.',
+  },
+  {
+    question: 'How will my waitlist email be captured?',
+    answer: 'The waitlist is embedded from your published Tally form. Every submission goes directly to Tally submissions for this form.',
+  },
+] as const;
+---
+
+<BaseLayout title={pageTitle} description={pageDescription}>
+  <SiteHeader />
+  <main class="codex-page">
+    <section class="codex-hero relative overflow-hidden border-b border-border-bright/45 px-5 sm:px-8">
+      <div class="absolute inset-0 bg-[linear-gradient(90deg,rgba(20,19,17,0.98)_0%,rgba(20,19,17,0.94)_42%,rgba(20,19,17,0.68)_72%,rgba(20,19,17,0.28)_100%)]" aria-hidden="true" />
+      <div class="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-surface via-surface/60 to-transparent" aria-hidden="true" />
+      <div class="relative mx-auto flex min-h-[calc(58svh-81px)] max-w-6xl flex-col justify-center py-12 sm:min-h-[calc(68svh-81px)] sm:py-20 lg:py-24">
+        <div class="max-w-3xl">
+          <h1 class="font-display text-4xl font-semibold leading-[1.02] text-mist sm:text-6xl lg:text-7xl">
+            Codex Masterclass
+          </h1>
+          <p class="mt-6 max-w-2xl text-xl leading-relaxed text-mist/90 sm:text-2xl">
+            Learn the AI skill that helps non-technical people turn ideas into first versions, useful work, and leverage.
+          </p>
+          <p class="mt-6 max-w-xl text-base leading-7 text-mist-dim sm:text-lg">
+            A 4-hour hands-on programme for professionals who want to stay abreast, get ahead, and direct AI with
+            confidence before the market makes it mandatory.
+          </p>
+          <div class="mt-9 flex flex-col gap-3 sm:flex-row">
+            <a class="codex-button codex-button--primary" href="#waitlist">
+              <span>Join the waitlist</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg>
+            </a>
+            <a class="codex-button codex-button--ghost" href="#lesson-plan">
+              <span>View lesson plan</span>
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" /></svg>
+            </a>
+          </div>
+          <div class="codex-flow mt-8" aria-label="Codex workflow">
+            <span>Idea</span>
+            <i aria-hidden="true"></i>
+            <span>Instructions</span>
+            <i aria-hidden="true"></i>
+            <span>First version</span>
+            <i aria-hidden="true"></i>
+            <span>Leverage</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="border-b border-border-bright/45 bg-surface-deep/88 px-5 py-4 sm:px-8">
+      <dl class="mx-auto grid max-w-6xl gap-px overflow-hidden rounded-lg border border-border-bright/45 bg-border-bright/35 sm:grid-cols-3">
+        {proofPoints.map((point) => (
+          <div class="bg-surface-deep/82 px-5 py-4 backdrop-blur-sm">
+            <dt class="font-display text-3xl font-semibold text-ember">{point.value}</dt>
+            <dd class="mt-1 text-sm leading-5 text-mist-dim">{point.label}</dd>
+          </div>
+        ))}
+      </dl>
+    </section>
+
+    <nav aria-label="Codex masterclass page sections" class="border-b border-border bg-surface-deep/86 px-5 backdrop-blur-md sm:px-8">
+      <div class="mx-auto flex max-w-6xl gap-1 overflow-x-auto py-2 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+        {lessonNav.map(({ href, label }) => (
+          <a class="shrink-0 rounded-md px-3 py-1.5 text-sm text-ink-muted transition-colors hover:bg-ember/10 hover:text-ember focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ember" href={href}>
+            {label}
+          </a>
+        ))}
+      </div>
+    </nav>
+
+    <section id="problem" class="border-b border-border px-5 py-16 sm:px-8 lg:py-20">
+      <div class="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.9fr_1.35fr] lg:items-start">
+        <div>
+          <h2 class="section-ornament font-display text-3xl font-semibold text-mist sm:text-4xl">
+            The problem
+          </h2>
+          <p class="mt-6 max-w-xl text-base leading-7 text-ink-muted">
+            AI is no longer a side topic. It is becoming a career, business, and execution advantage. But most people are
+            still stuck at “ask a chatbot and hope the answer is useful.”
+          </p>
+        </div>
+        <div class="codex-problem-panel p-5 sm:p-6">
+          <p class="font-display text-2xl font-semibold leading-snug text-mist">
+            The real risk is not that AI replaces you overnight.
+          </p>
+          <p class="mt-3 text-base leading-7 text-mist-dim">
+            The real risk is falling behind people who know how to use AI to learn faster, test ideas faster, and produce
+            useful work faster.
+          </p>
+          <ul class="mt-7 grid gap-4">
+            {problemPoints.map((point) => (
+              <li class="codex-check-item">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6" /></svg>
+                <span>{point}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section id="solution" class="border-b border-border bg-surface-raised/20 px-5 py-16 sm:px-8 lg:py-20">
+      <div class="mx-auto max-w-6xl">
+        <div class="max-w-3xl">
+          <h2 class="section-ornament font-display text-3xl font-semibold text-mist sm:text-4xl">
+            The solution
+          </h2>
+          <p class="mt-6 text-base leading-7 text-ink-muted">
+            This programme teaches you how to use Codex as an execution partner. You bring the goal; Codex helps you turn
+            it into a first version you can see, test, improve, and explain.
+          </p>
+        </div>
+        <div class="mt-12 grid gap-5 md:grid-cols-3">
+          {solutionSteps.map((step, index) => (
+            <article class="codex-step-card p-5">
+              <p class="font-display text-3xl font-semibold text-ember">0{index + 1}</p>
+              <h3 class="mt-4 font-display text-xl font-semibold text-mist">{step.title}</h3>
+              <p class="mt-3 text-sm leading-6 text-mist/84">{step.body}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section id="why-now" class="border-b border-border px-5 py-16 sm:px-8 lg:py-20">
+      <div class="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.85fr_1.45fr] lg:items-start">
+        <div>
+          <h2 class="section-ornament font-display text-3xl font-semibold text-mist sm:text-4xl">Why Codex now</h2>
+          <p class="mt-6 max-w-xl text-base leading-7 text-ink-muted">
+            The next advantage is not knowing every tool. It is knowing how to guide AI tools toward useful outcomes:
+            clearly, safely, and repeatedly.
+          </p>
+        </div>
+        <div class="grid gap-5 sm:grid-cols-2">
+          {whyNow.map((item) => (
+            <article class="codex-line-item">
+              <h3>{item.title}</h3>
+              <p>{item.body}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section id="lesson-plan" class="relative border-b border-border bg-surface-raised/20 px-5 py-16 sm:px-8 lg:py-20">
+      <div class="mx-auto max-w-6xl">
+        <div class="max-w-3xl">
+          <h2 class="section-ornament font-display text-3xl font-semibold text-mist sm:text-4xl">Lesson plan</h2>
+          <p class="mt-6 text-base leading-7 text-ink-muted">
+            A focused 4-hour session designed for non-technical people. The arc is simple: understand the opportunity,
+            instruct Codex clearly, build a first output, improve it, then leave with a personal AI operating system.
+          </p>
+        </div>
+        <div class="mt-12 grid gap-5 md:grid-cols-2 xl:grid-cols-4">
+          {modules.map((module) => (
+            <article class="codex-module-card flex min-h-full flex-col p-5">
+              <div class="flex items-start justify-between gap-4">
+                <p class="font-display text-3xl font-semibold text-ember">{module.number}</p>
+                <span class="codex-module-sigil" aria-hidden="true">
+                  <svg viewBox="0 0 24 24"><path d="M12 3v18M4 12h16M6.5 6.5l11 11M17.5 6.5l-11 11" /></svg>
+                </span>
+              </div>
+              <h3 class="mt-5 font-display text-xl font-semibold text-mist">{module.title}</h3>
+              <p class="mt-3 text-sm leading-6 text-mist/84">{module.promise}</p>
+              <ul class="mt-5 flex-1 space-y-2 text-sm leading-5 text-ink-muted">
+                {module.lessons.map((lesson) => <li>{lesson}</li>)}
+              </ul>
+            <p class="mt-6 border-t border-border-bright/35 pt-4 text-sm leading-5 text-ember/90">
+                <span class="font-label text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ember">Exercise</span>
+                <span class="ml-2 text-mist-dim">{module.lab}</span>
+              </p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section id="who" class="border-b border-border px-5 py-16 sm:px-8 lg:py-20">
+      <div class="mx-auto max-w-6xl">
+        <div class="grid gap-10 lg:grid-cols-[0.85fr_1.35fr] lg:items-start">
+          <div>
+            <h2 class="section-ornament font-display text-3xl font-semibold text-mist sm:text-4xl">Who should attend</h2>
+            <p class="mt-6 text-base leading-7 text-ink-muted">
+              This is for people who want leverage, not hype. Bring one work problem, business idea, or career goal you
+              want to move forward with AI.
+            </p>
+          </div>
+          <div class="grid gap-5 sm:grid-cols-2">
+            {audiences.map((audience) => (
+              <article class="codex-audience-card p-5">
+                <h3 class="font-display text-xl font-semibold text-mist">{audience.title}</h3>
+                <p class="mt-3 text-sm leading-6 text-mist/84">{audience.body}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="why-this" class="border-b border-border bg-surface-raised/20 px-5 py-16 sm:px-8 lg:py-20">
+      <div class="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.9fr_1.35fr] lg:items-start">
+        <div>
+          <h2 class="section-ornament font-display text-3xl font-semibold text-mist sm:text-4xl">
+            Why this over other AI programmes
+          </h2>
+          <p class="mt-6 text-base leading-7 text-ink-muted">
+            Most AI courses either stay too high-level or become too technical too quickly. This programme is designed for
+            people who want usable confidence in one focused afternoon.
+          </p>
+        </div>
+        <div class="grid gap-5 sm:grid-cols-2">
+          {differentiators.map((item) => (
+            <article class="codex-audience-card p-5">
+              <h3 class="font-display text-xl font-semibold text-mist">{item.title}</h3>
+              <p class="mt-3 text-sm leading-6 text-mist/84">{item.body}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section id="outcomes" class="border-b border-border bg-surface-raised/20 px-5 py-16 sm:px-8 lg:py-20">
+      <div class="mx-auto grid max-w-6xl gap-12 lg:grid-cols-[0.95fr_1.35fr] lg:items-center">
+        <div>
+          <h2 class="section-ornament font-display text-3xl font-semibold text-mist sm:text-4xl">Why come for the programme</h2>
+          <p class="mt-6 text-base leading-7 text-ink-muted">
+            You can watch AI tutorials forever and still not change how you work. The value here is guided practice,
+            feedback, templates, and the confidence to execute.
+          </p>
+        </div>
+        <ul class="grid gap-4 sm:grid-cols-2">
+          {takeaways.map((takeaway) => (
+            <li class="codex-check-item">
+              <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m5 12 4 4L19 6" /></svg>
+              <span>{takeaway}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <section id="investment" class="border-b border-border px-5 py-16 sm:px-8 lg:py-20">
+      <div class="mx-auto max-w-6xl">
+        <div class="grid gap-10 lg:grid-cols-[0.9fr_1.35fr] lg:items-start">
+          <div>
+            <h2 class="section-ornament font-display text-3xl font-semibold text-mist sm:text-4xl">Investment</h2>
+            <p class="mt-6 text-base leading-7 text-ink-muted">
+              Recommended positioning: accessible enough for ambitious individuals, premium enough to signal serious
+              transformation, and expandable into corporate cohorts.
+            </p>
+          </div>
+          <div class="grid gap-5 md:grid-cols-3">
+            {pricing.map((item, index) => (
+              <article class:list={['codex-price-card p-5', index === 1 && 'codex-price-card--featured']}>
+                <p class="font-label text-[0.68rem] font-semibold uppercase tracking-[0.18em] text-ember">{item.name}</p>
+                <p class="mt-4 font-display text-3xl font-semibold text-mist">{item.price}</p>
+                <p class="mt-3 text-sm leading-6 text-mist/80">{item.note}</p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="border-b border-border px-5 py-16 sm:px-8 lg:py-20">
+      <div class="mx-auto grid max-w-6xl gap-10 lg:grid-cols-[0.8fr_1.4fr]">
+        <div>
+          <h2 class="section-ornament font-display text-3xl font-semibold text-mist sm:text-4xl">FAQ</h2>
+        </div>
+        <div class="divide-y divide-border-bright/35 border-y border-border-bright/35">
+          {faqs.map((faq) => (
+            <details class="group py-5">
+              <summary class="flex cursor-pointer list-none items-center justify-between gap-4 font-display text-xl font-semibold text-mist">
+                <span>{faq.question}</span>
+                <svg class="h-5 w-5 shrink-0 text-ember transition-transform group-open:rotate-45" viewBox="0 0 24 24" aria-hidden="true">
+                  <path d="M12 5v14M5 12h14" />
+                </svg>
+              </summary>
+              <p class="mt-3 max-w-2xl text-base leading-7 text-ink-muted">{faq.answer}</p>
+            </details>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section id="waitlist" class="schematic-bg px-5 py-16 sm:px-8 lg:py-20">
+      <div class="mx-auto grid max-w-6xl gap-10 rounded-lg border border-border-bright bg-surface-deep/80 p-6 shadow-[0_24px_70px_-45px_rgba(0,0,0,0.9)] sm:p-8 lg:grid-cols-[0.9fr_1.45fr] lg:items-center lg:p-10">
+        <div>
+          <h2 class="font-display text-3xl font-semibold text-mist sm:text-4xl">Be first in line</h2>
+          <p class="mt-4 max-w-xl text-base leading-7 text-ink-muted">
+            Join the waitlist for the 4-hour Codex Masterclass. Small-room format, guided exercises, and practical AI
+            skills for people who want to get ahead.
+          </p>
+          <p class="mt-3 max-w-xl text-sm leading-6 text-ink-muted">
+            Proposed first cohorts (SGT): Saturday, 20 June 2026 or Saturday, 27 June 2026.
+          </p>
+        </div>
+        <div class="codex-embed-shell">
+          <iframe
+            data-tally-src={tallyEmbedUrl}
+            loading="lazy"
+            width="100%"
+            height="520"
+            frameborder="0"
+            marginheight="0"
+            marginwidth="0"
+            title="Codex Masterclass Waitlist Form"
+            class="codex-embed-frame"
+          ></iframe>
+          <noscript>
+            <p class="text-sm leading-6 text-ink-muted">
+              JavaScript is required for the embedded form. Use this direct link instead:
+              <a href="https://tally.so/r/NpRO8N" class="text-ember underline">Codex Masterclass waitlist</a>.
+            </p>
+          </noscript>
+        </div>
+      </div>
+    </section>
+  </main>
+  <SiteFooter />
+</BaseLayout>
+
+<script is:inline>
+  var d = document;
+  var w = 'https://tally.so/widgets/embed.js';
+  var v = function () {
+    if (typeof Tally !== 'undefined') {
+      Tally.loadEmbeds();
+    } else {
+      d.querySelectorAll('iframe[data-tally-src]:not([src])').forEach(function (el) {
+        el.src = el.dataset.tallySrc;
+      });
+    }
+  };
+  if (typeof Tally !== 'undefined') {
+    v();
+  } else if (d.querySelector('script[src="' + w + '"]') == null) {
+    var s = d.createElement('script');
+    s.src = w;
+    s.onload = v;
+    s.onerror = v;
+    d.body.appendChild(s);
+  }
+</script>
+
+<style>
+  .codex-page {
+    color: var(--color-mist);
+  }
+
+  .codex-hero {
+    background-image: url('/img/codex-masterclass-hero.png');
+    background-position: center right;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  .codex-hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.24;
+    background-image:
+      linear-gradient(115deg, transparent 0%, rgba(196, 165, 116, 0.16) 48%, transparent 56%),
+      repeating-linear-gradient(90deg, transparent 0 46px, rgba(232, 217, 192, 0.055) 47px, transparent 48px);
+    transform: translateX(-18%);
+  }
+
+  .codex-hero h1,
+  .codex-hero p {
+    text-shadow: 0 2px 14px rgba(0, 0, 0, 0.88);
+  }
+
+  .codex-flow {
+    display: flex;
+    width: min(100%, 34rem);
+    align-items: center;
+    gap: 0.55rem;
+    color: var(--color-mist-dim);
+    font-size: 0.85rem;
+  }
+
+  .codex-flow span {
+    border: 1px solid rgba(196, 165, 116, 0.35);
+    border-radius: 0.5rem;
+    background: rgba(20, 19, 17, 0.5);
+    padding: 0.42rem 0.65rem;
+    box-shadow: inset 0 0 18px rgba(196, 165, 116, 0.035);
+    backdrop-filter: blur(8px);
+  }
+
+  .codex-flow i {
+    position: relative;
+    height: 1px;
+    min-width: 1.35rem;
+    flex: 1 1 auto;
+    overflow: hidden;
+    background: rgba(196, 165, 116, 0.28);
+  }
+
+  .codex-flow i::after {
+    content: '';
+    position: absolute;
+    inset-block: -2px;
+    left: -35%;
+    width: 35%;
+    background: linear-gradient(90deg, transparent, var(--color-ember), transparent);
+  }
+
+  .codex-button {
+    display: inline-flex;
+    min-height: 3rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.65rem;
+    border-radius: 0.5rem;
+    padding: 0.85rem 1.1rem;
+    font-weight: 700;
+    line-height: 1;
+    transition:
+      transform 180ms ease,
+      border-color 180ms ease,
+      background-color 180ms ease,
+      color 180ms ease;
+  }
+
+  .codex-button svg,
+  .codex-check-item svg,
+  .codex-module-sigil svg,
+  summary svg {
+    width: 1.1rem;
+    height: 1.1rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .codex-button:hover {
+    transform: translateY(-1px);
+  }
+
+  .codex-button--primary {
+    border: 1px solid rgba(232, 217, 192, 0.28);
+    background: linear-gradient(180deg, #d8bc83, #b89156);
+    color: var(--color-surface-deep);
+    box-shadow: 0 14px 34px -22px rgba(216, 188, 131, 0.85);
+  }
+
+  .codex-button--ghost {
+    border: 1px solid rgba(196, 165, 116, 0.42);
+    background: rgba(20, 19, 17, 0.34);
+    color: var(--color-ember);
+    backdrop-filter: blur(8px);
+  }
+
+  .codex-line-item {
+    border-top: 1px solid rgba(92, 87, 78, 0.55);
+    padding-top: 1.25rem;
+  }
+
+  .codex-line-item h3 {
+    font-family: var(--font-display);
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: var(--color-mist);
+  }
+
+  .codex-line-item p {
+    margin-top: 0.75rem;
+    color: var(--color-ink-muted);
+    line-height: 1.65;
+  }
+
+  .codex-module-card,
+  .codex-audience-card,
+  .codex-price-card,
+  .codex-step-card,
+  .codex-problem-panel {
+    border: 1px solid rgba(92, 87, 78, 0.78);
+    border-radius: 0.5rem;
+    background:
+      linear-gradient(145deg, rgba(232, 217, 192, 0.055), transparent 42%),
+      rgba(37, 35, 32, 0.82);
+    box-shadow:
+      inset 0 0 0 1px rgba(20, 19, 17, 0.75),
+      0 18px 52px -42px rgba(0, 0, 0, 0.8);
+  }
+
+  .codex-price-card--featured {
+    border-color: rgba(196, 165, 116, 0.7);
+    background:
+      linear-gradient(145deg, rgba(216, 188, 131, 0.16), transparent 46%),
+      rgba(37, 35, 32, 0.92);
+  }
+
+  .codex-module-card li {
+    position: relative;
+    padding-left: 1rem;
+  }
+
+  .codex-module-card li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.62rem;
+    width: 0.3rem;
+    height: 0.3rem;
+    border-radius: 999px;
+    background: var(--color-ember);
+  }
+
+  .codex-module-sigil {
+    display: inline-flex;
+    width: 2.25rem;
+    height: 2.25rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0.5rem;
+    border: 1px solid rgba(196, 165, 116, 0.32);
+    color: var(--color-ember);
+    background: rgba(20, 19, 17, 0.55);
+  }
+
+  .codex-check-item {
+    display: flex;
+    gap: 0.8rem;
+    align-items: flex-start;
+    color: var(--color-mist-dim);
+    line-height: 1.55;
+  }
+
+  .codex-check-item svg {
+    margin-top: 0.16rem;
+    flex: 0 0 auto;
+    color: #9fcf9f;
+  }
+
+  .codex-embed-shell {
+    border-radius: 0.5rem;
+    border: 1px solid rgba(92, 87, 78, 0.78);
+    background: rgba(20, 19, 17, 0.38);
+    padding: 0.55rem;
+  }
+
+  .codex-embed-frame {
+    display: block;
+    border: 0;
+    border-radius: 0.45rem;
+    min-height: 520px;
+    background: transparent;
+  }
+
+  @media (max-width: 768px) {
+    .codex-hero {
+      background-position: 62% center;
+    }
+
+    .codex-flow {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      width: 100%;
+    }
+
+    .codex-flow i {
+      display: none;
+    }
+
+    .codex-flow span {
+      text-align: center;
+    }
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .codex-hero {
+      animation: codex-hero-pan 18s ease-in-out infinite alternate;
+    }
+
+    .codex-hero::before {
+      animation: codex-scan 5.8s ease-in-out infinite;
+    }
+
+    .codex-flow i::after {
+      animation: codex-flow-line 2.4s ease-in-out infinite;
+    }
+
+    .codex-flow span {
+      animation: codex-flow-glow 4s ease-in-out infinite;
+    }
+
+    .codex-flow span:nth-of-type(2) {
+      animation-delay: 0.35s;
+    }
+
+    .codex-flow span:nth-of-type(3) {
+      animation-delay: 0.7s;
+    }
+
+    .codex-flow span:nth-of-type(4) {
+      animation-delay: 1.05s;
+    }
+
+    .codex-module-sigil {
+      animation: codex-sigil 7s linear infinite;
+    }
+
+  }
+
+  @keyframes codex-hero-pan {
+    from {
+      background-position: center right;
+    }
+
+    to {
+      background-position: 58% center;
+    }
+  }
+
+  @keyframes codex-scan {
+    0%,
+    100% {
+      transform: translateX(-28%);
+      opacity: 0.12;
+    }
+
+    48%,
+    56% {
+      opacity: 0.3;
+    }
+
+    70% {
+      transform: translateX(28%);
+      opacity: 0.16;
+    }
+  }
+
+  @keyframes codex-flow-line {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(390%);
+    }
+  }
+
+  @keyframes codex-flow-glow {
+    0%,
+    100% {
+      border-color: rgba(196, 165, 116, 0.3);
+      color: var(--color-mist-dim);
+    }
+
+    45% {
+      border-color: rgba(216, 188, 131, 0.8);
+      color: var(--color-mist);
+      box-shadow: inset 0 0 20px rgba(196, 165, 116, 0.08), 0 0 24px rgba(196, 165, 116, 0.1);
+    }
+  }
+
+  @keyframes codex-sigil {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+</style>
