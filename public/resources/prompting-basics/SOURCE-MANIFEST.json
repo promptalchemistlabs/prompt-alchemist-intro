@@ -1,0 +1,35 @@
+{
+  "version": 4,
+  "title": "Show AI what you mean",
+  "pages": 5,
+  "format": "4:5 illustrated PDF + PNG carousel",
+  "concept_source": "https://github.com/microsoft/generative-ai-for-beginners/blob/main/04-prompt-engineering-fundamentals/README.md#using-examples",
+  "artwork": "Original vector illustrations by PAL",
+  "examples": "Unchanged PAL v3 examples",
+  "example_counts": [
+    0,
+    1,
+    3
+  ],
+  "model_run_performed": false,
+  "suggested_result": "Illustrative, not an observed model output",
+  "pdf_sha256": "af8f81c43cd08d7ecbfe20d31be9328e8070de07bd71ec83f6ff2a34c01140f9",
+  "slide_dimensions": [
+    1080,
+    1350
+  ],
+  "visual_review": "All five rendered pages reviewed; detailed review of example and practice pages.",
+  "files": {
+    "contact-sheet.png": "46841ed6bc5f4e71c3424dae59a3782c592a53dbf7727b758351cc6d8091cf47",
+    "copy-and-try.md": "e69107d06d5213bba0a753d7610fb95a92057e06ba9d268cc90026fb7897a14e",
+    "few-shot.txt": "d165864797e5af8b157cf1b47e91670f7cf28dcffe0bedfb14a1fc21d4887cfe",
+    "one-shot.txt": "3c5932a1dad0648521998f19e581c56af6d6c4fea680564c07f4b85742b66416",
+    "pal-prompting-basics.pdf": "af8f81c43cd08d7ecbfe20d31be9328e8070de07bd71ec83f6ff2a34c01140f9",
+    "slide-1.png": "9f0cf8ae5abe2d20ea77415f19a3f345948c18206c9ab427507f0469493a08fa",
+    "slide-2.png": "12c8c9fb8e278db2631b21c3c5237991af0cb671b487b1c873e6d5b7dd693aa3",
+    "slide-3.png": "fc53d4ec87a585fe2fa1a281b21c967ae1f5adfe98a9b14d4ff5ec516c021292",
+    "slide-4.png": "8b2cb854af4f537a7be39d8dbae4e727733f2e80e3039eebca59c570cfdf8651",
+    "slide-5.png": "6d8c048fc985b8bfa2d7e62eea8333b98f9946976b13972526c38e522e62d1cd",
+    "zero-shot.txt": "c945c5d61dd0b7b020be97ca37896a5d02be6280318f331bacff3f50f87895de"
+  }
+}

@@ -1,0 +1,8 @@
+Rewrite politely. Keep deadlines. Use 15 words or fewer.
+Return only the rewritten message.
+
+Input: Check the draft.
+Output: Could you please check the draft?
+
+Input: Send the invoice today.
+Output:

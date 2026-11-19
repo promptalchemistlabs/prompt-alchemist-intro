@@ -1,0 +1,5 @@
+Rewrite politely. Keep deadlines. Use 15 words or fewer.
+Return only the rewritten message.
+
+Input: Send the invoice today.
+Output:

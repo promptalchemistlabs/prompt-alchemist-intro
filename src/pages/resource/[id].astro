@@ -1,0 +1,188 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import { resources, type Resource } from '../../data/resources';
+import '../../styles/resources.css';
+
+export function getStaticPaths() {
+  return resources.map((resource) => ({ params: { id: resource.id }, props: { resource } }));
+}
+interface Props { resource: Resource }
+const { resource } = Astro.props;
+---
+
+<BaseLayout title={`${resource.title} | PAL Resources`} description={resource.summary} image={resource.cover}>
+  <SiteHeader />
+  <main class="resource-main">
+    <a class="resource-text-link resource-back" href="/resource">All resources</a>
+    <header class="resource-detail-hero">
+      <div>
+        <p class="resource-eyebrow">{resource.category} / A visual starter</p>
+        <h1>{resource.title}</h1>
+        <p class="resource-lead">{resource.summary}</p>
+        <ul class="resource-tags" aria-label="Resource details">
+          <li>{resource.audience}</li><li>Free download</li><li>No sign-up</li>
+        </ul>
+        <div class="resource-actions">
+          <a class="resource-button resource-button-primary" href={resource.pdf} download>Download the PDF</a>
+          <a class="resource-button" href={resource.pack} download>Get the full starter pack</a>
+        </div>
+        <p class="resource-download-note">The pack includes the PDF, five carousel images and copyable prompts.</p>
+      </div>
+      <a class="resource-hero-art" href="#visual-guide" aria-label="Read the visual guide on this page">
+        <img src={resource.cover} alt="Cover of the illustrated guide: Show AI what you mean." width="1080" height="1350" loading="eager" decoding="async" />
+      </a>
+    </header>
+
+    <section class="resource-section" id="visual-guide" aria-labelledby="visual-guide-title">
+      <div class="resource-section-heading">
+        <div><p class="resource-eyebrow">Start here</p><h2 id="visual-guide-title">Read the visual guide</h2></div>
+        <p>Swipe, scroll, or use the page buttons.</p>
+      </div>
+      <div class="resource-reader" data-resource-reader>
+        <div class="resource-reader-toolbar">
+          <p data-page-label aria-live="polite" aria-atomic="true">Page 1 of {resource.slides.length}: {resource.slides[0].title}</p>
+          <div class="resource-reader-controls" hidden data-reader-controls>
+            <button type="button" class="resource-button" data-prev disabled aria-controls="guide-slides">Previous page</button>
+            <button type="button" class="resource-button" data-next aria-controls="guide-slides">Next page</button>
+          </div>
+        </div>
+        <div class="resource-slides" id="guide-slides" tabindex="0" role="region" aria-label="Five-page illustrated prompting guide. Scroll horizontally to read each page.">
+          {resource.slides.map((slide, index) => (
+            <figure class="resource-slide" data-title={slide.title}>
+              <img src={slide.src} alt={slide.alt} width="1080" height="1350" loading="lazy" decoding="async" />
+              <figcaption>Page {index + 1}: {slide.title}. <a href={slide.src} target="_blank" rel="noopener">Open full-size image<span class="resource-sr-only"> for page {index + 1} (new tab)</span></a></figcaption>
+            </figure>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <section class="resource-section" aria-labelledby="copy-prompt-title">
+      <div class="resource-section-heading">
+        <div><p class="resource-eyebrow">Make it useful</p><h2 id="copy-prompt-title">Copy a prompt and try it</h2></div>
+        <p>A shot is a completed example input/output pair.</p>
+      </div>
+      <div class="resource-prompt-workspace" data-prompt-workspace>
+        <div class="resource-prompt-tabs" data-prompt-tabs aria-label="Choose a prompting technique">
+          {resource.prompts.map((prompt) => <button type="button" id={`tab-${prompt.id}`} data-prompt-tab={prompt.id} class:list={['resource-prompt-tab', { 'is-active': prompt.id === 'zero-shot' }]}>{prompt.title}<span>{prompt.count}</span></button>)}
+        </div>
+        {resource.prompts.map((prompt) => (
+          <section class="resource-prompt-panel" id={`panel-${prompt.id}`} data-prompt-panel={prompt.id} aria-labelledby={`tab-${prompt.id}`}>
+            <div class="resource-prompt-heading">
+              <p>{prompt.description}</p>
+              <button type="button" class="resource-button" data-copy-prompt={prompt.id} aria-label={`Copy ${prompt.title.toLowerCase()} prompt`}>Copy prompt</button>
+            </div>
+            <pre tabindex="0"><code data-prompt-text={prompt.id}>{prompt.text}</code></pre>
+            <a class="resource-text-link" href={prompt.download} download>Download this prompt as text</a>
+          </section>
+        ))}
+        <p class="resource-copy-status" data-copy-status role="status" aria-live="polite"></p>
+      </div>
+      <p class="resource-explainer">Leave the final <strong>Output:</strong> blank for the AI. The instruction and new input are the same in all three prompts; only the examples change.</p>
+    </section>
+
+    <section class="resource-practice" aria-labelledby="practice-title">
+      <div>
+        <p class="resource-eyebrow">Your turn</p>
+        <h2 id="practice-title">One small experiment.</h2>
+        <p>Change only the final Input to:</p>
+        <blockquote>Need the draft by Monday.</blockquote>
+        <p>Try each prompt in a fresh chat using the same model. Check the result for a polite tone, the same request and the Monday deadline.</p>
+      </div>
+      <aside>
+        <h3>Start simple.</h3>
+        <p>Try zero-shot first. Add one example to show a style. Use a few relevant examples to cover different cases.</p>
+        <p>More examples are not automatically better.</p>
+      </aside>
+    </section>
+    <footer class="resource-sources">
+      <p>Concepts: <a class="resource-text-link" href="https://github.com/microsoft/generative-ai-for-beginners/blob/main/04-prompt-engineering-fundamentals/README.md#using-examples" target="_blank" rel="noopener noreferrer">Microsoft's Prompt Engineering Fundamentals<span class="resource-sr-only"> (new tab)</span></a>. Examples and illustrations by PAL.</p>
+      <p>The suggested result in the guide is illustrative; it is not a recorded model test.</p>
+    </footer>
+  </main>
+  <SiteFooter />
+</BaseLayout>
+
+<script>
+  const reader = document.querySelector<HTMLElement>('[data-resource-reader]');
+  if (reader) {
+    const track = reader.querySelector<HTMLElement>('.resource-slides')!;
+    const slides = Array.from(track.querySelectorAll<HTMLElement>('.resource-slide'));
+    const previous = reader.querySelector<HTMLButtonElement>('[data-prev]')!;
+    const next = reader.querySelector<HTMLButtonElement>('[data-next]')!;
+    const label = reader.querySelector<HTMLElement>('[data-page-label]')!;
+    reader.querySelector<HTMLElement>('[data-reader-controls]')!.hidden = false;
+    let current = 0;
+    let frame = 0;
+    const update = () => {
+      const left = track.getBoundingClientRect().left;
+      current = slides.reduce((best, slide, index) => Math.abs(slide.getBoundingClientRect().left - left) < Math.abs(slides[best].getBoundingClientRect().left - left) ? index : best, 0);
+      label.textContent = `Page ${current + 1} of ${slides.length}: ${slides[current].dataset.title}`;
+      previous.disabled = current === 0;
+      next.disabled = current === slides.length - 1;
+    };
+    const goTo = (index: number) => {
+      const slide = slides[Math.max(0, Math.min(slides.length - 1, index))];
+      track.scrollTo({ left: track.scrollLeft + slide.getBoundingClientRect().left - track.getBoundingClientRect().left, behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'instant' : 'smooth' });
+    };
+    previous.addEventListener('click', () => goTo(current - 1));
+    next.addEventListener('click', () => goTo(current + 1));
+    track.addEventListener('scroll', () => { cancelAnimationFrame(frame); frame = requestAnimationFrame(update); }, { passive: true });
+    track.addEventListener('keydown', (event) => {
+      if (event.target !== track) return;
+      if (['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) {
+        event.preventDefault();
+        goTo(event.key === 'Home' ? 0 : event.key === 'End' ? slides.length - 1 : current + (event.key === 'ArrowRight' ? 1 : -1));
+      }
+    });
+    new ResizeObserver(update).observe(track);
+    update();
+  }
+
+  const workspace = document.querySelector<HTMLElement>('[data-prompt-workspace]');
+  if (workspace) {
+    const tabs = Array.from(workspace.querySelectorAll<HTMLButtonElement>('[data-prompt-tab]'));
+    const panels = Array.from(workspace.querySelectorAll<HTMLElement>('[data-prompt-panel]'));
+    workspace.querySelector('[data-prompt-tabs]')!.setAttribute('role', 'tablist');
+    const activate = (index: number) => {
+      workspace.querySelector<HTMLElement>('[data-copy-status]')!.textContent = '';
+      tabs.forEach((tab, i) => {
+        tab.setAttribute('aria-selected', String(i === index));
+        tab.tabIndex = i === index ? 0 : -1;
+        tab.classList.toggle('is-active', i === index);
+        panels[i].hidden = i !== index;
+      });
+    };
+    tabs.forEach((tab, index) => {
+      tab.setAttribute('role', 'tab');
+      tab.setAttribute('aria-controls', panels[index].id);
+      panels[index].setAttribute('role', 'tabpanel');
+      panels[index].tabIndex = 0;
+      tab.addEventListener('click', () => activate(index));
+      tab.addEventListener('keydown', (event) => {
+        if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(event.key)) return;
+        event.preventDefault();
+        const i = event.key === 'Home' ? 0 : event.key === 'End' ? tabs.length - 1 : (index + (event.key === 'ArrowRight' ? 1 : -1) + tabs.length) % tabs.length;
+        activate(i); tabs[i].focus();
+      });
+    });
+    activate(0);
+    workspace.querySelectorAll<HTMLButtonElement>('[data-copy-prompt]').forEach((button) => {
+      button.addEventListener('click', async () => {
+        const status = workspace.querySelector<HTMLElement>('[data-copy-status]')!;
+        const panel = panels.find((item) => item.dataset.promptPanel === button.dataset.copyPrompt)!;
+        const code = panel.querySelector<HTMLElement>('[data-prompt-text]')!;
+        try {
+          await navigator.clipboard.writeText(code.textContent || '');
+          status.textContent = 'Prompt copied. Paste it into a fresh AI chat.';
+        } catch {
+          const range = document.createRange(); range.selectNodeContents(code);
+          const selection = window.getSelection(); selection?.removeAllRanges(); selection?.addRange(range);
+          status.textContent = 'Copy was unavailable. The prompt is selected; copy it manually or download the text file.';
+        }
+      });
+    });
+  }
+</script>

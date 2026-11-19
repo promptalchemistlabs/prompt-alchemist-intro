@@ -1,0 +1,44 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import { resources } from '../../data/resources';
+import '../../styles/resources.css';
+---
+
+<BaseLayout title="Resources | Prompt Alchemist Labs" description="Practical AI resources from Prompt Alchemist Labs. Visual guides, copyable prompts and small exercises to help you get started." image={resources[0]?.cover}>
+  <SiteHeader />
+  <main class="resource-main">
+    <header class="resource-library-hero">
+      <p class="resource-eyebrow">The PAL resource shelf</p>
+      <h1>A little clarity.<br />Something to try.</h1>
+      <p class="resource-lead">Practical guides for working with AI. Pick one, try it on a real task, and keep what helps.</p>
+    </header>
+
+    <section class="resource-library" aria-labelledby="resource-library-title">
+      <div class="resource-section-heading">
+        <h2 id="resource-library-title">Free resources</h2>
+        <p>No sign-up needed.</p>
+      </div>
+      <div class="resource-grid">
+        {resources.map((resource) => (
+          <article class="resource-card">
+            <a class="resource-card-art" href={`/resource/${resource.id}`} tabindex="-1" aria-hidden="true">
+              <img src={resource.cover} alt="" width="1080" height="1350" loading="eager" decoding="async" />
+            </a>
+            <div class="resource-card-content">
+              <p class="resource-eyebrow">{resource.category}</p>
+              <h3><a href={`/resource/${resource.id}`}>{resource.title}</a></h3>
+              <p>{resource.summary}</p>
+              <ul class="resource-tags" aria-label="Resource details">
+                <li>{resource.audience}</li><li>{resource.slides.length}-page guide</li><li>PDF + prompts</li>
+              </ul>
+              <a class="resource-button resource-button-primary" href={`/resource/${resource.id}`}>Explore the starter</a>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  </main>
+  <SiteFooter />
+</BaseLayout>

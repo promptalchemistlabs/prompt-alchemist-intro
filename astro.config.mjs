@@ -5,7 +5,7 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://prompt-alchemist.example.com',
+  site: 'https://prompt-alchemist-labs.vercel.app',
   redirects: {
     '/masterclass/codex': '/course/codex-masterclass',
   },
