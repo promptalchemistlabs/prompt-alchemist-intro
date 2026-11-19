@@ -1,0 +1,62 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import SiteHeader from '../../components/SiteHeader.astro';
+import SiteFooter from '../../components/SiteFooter.astro';
+import { courses, type Course } from '../../data/courses';
+import '../../styles/courses.css';
+
+export function getStaticPaths() {
+  return courses.map((course) => ({ params: { slug: course.slug }, props: { course } }));
+}
+
+interface Props { course: Course }
+const { course } = Astro.props;
+const archived = course.status === 'archived';
+---
+
+<BaseLayout title={`${course.title}${archived ? ' — Archived' : ''} | Prompt Alchemist`} description={course.summary}>
+  <SiteHeader />
+  <main class="course-main">
+    <header class="course-hero">
+      <a class="course-text-link course-back" href="/courses">All courses</a>
+      <span class="course-status">{archived ? 'Archived course' : 'Current course'}</span>
+      <h1>{course.title}</h1>
+      <p class="course-lead">{course.summary}</p>
+    </header>
+
+    {archived && (
+      <aside class="course-notice" aria-labelledby="archive-notice">
+        <h2 id="archive-notice">This course is not currently offered.</h2>
+        <p>This outline is kept for reference. Registration is closed on this site. PAL's current focus is practical AI workflows, shared frameworks and community learning.</p>
+        <a class="course-text-link" href="/periodic-table">Explore PAL's frameworks</a>
+      </aside>
+    )}
+
+    <dl class="course-facts">
+      <div><dt>Format</dt><dd>{course.format}</dd></div>
+      <div><dt>Audience</dt><dd>{course.audience}</dd></div>
+      <div><dt>Starting point</dt><dd>{course.prerequisite}</dd></div>
+    </dl>
+
+    <section class="course-section" aria-labelledby="course-outline">
+      <h2 id="course-outline">Workshop outline</h2>
+      <div class="course-grid course-grid-wide">
+        {course.modules.map((module) => (
+          <article class="course-card">
+            <h3>{module.title}</h3>
+            <p>{module.description}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="course-section" aria-labelledby="course-outcomes">
+      <h2 id="course-outcomes">What the workshop was designed to help you create</h2>
+      <ul class="course-outcomes">
+        {course.outcomes.map((outcome) => <li>{outcome}</li>)}
+      </ul>
+    </section>
+    <div class="course-closing"><a class="course-text-link" href="/about">Learn about Prompt Alchemist</a></div>
+  </main>
+  <SiteFooter />
+</BaseLayout>

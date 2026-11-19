@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import { courses } from '../data/courses';
+import '../styles/courses.css';
+
+const currentCourses = courses.filter((course) => course.status === 'active');
+const archivedCourses = courses.filter((course) => course.status === 'archived');
+---
+
+<BaseLayout title="Courses | Prompt Alchemist" description="Current and archived courses from Prompt Alchemist.">
+  <SiteHeader />
+  <main class="course-main">
+    <header class="course-hero">
+      <p class="course-eyebrow">Learning at Prompt Alchemist</p>
+      <h1>Courses</h1>
+      <p class="course-lead">A record of our structured learning programmes. Our current focus is practical AI workflows, shared frameworks and community learning.</p>
+    </header>
+
+    <section class="course-section" aria-labelledby="current-courses">
+      <h2 id="current-courses">Current courses</h2>
+      {currentCourses.length > 0 ? (
+        <div class="course-grid">
+          {currentCourses.map((course) => (
+            <article class="course-card">
+              <span class="course-status">Current</span>
+              <h3><a href={`/course/${course.slug}`}>{course.title}</a></h3>
+              <p>{course.summary}</p>
+              <p class="course-meta">{course.format}</p>
+              <a class="course-text-link" href={`/course/${course.slug}`}>View course</a>
+            </article>
+          ))}
+        </div>
+      ) : (
+        <div class="course-empty">
+          <p class="course-empty-title">No courses are open at the moment.</p>
+          <p>You can explore our frameworks and learn alongside the community.</p>
+          <a class="course-text-link" href="/periodic-table">Explore PAL's frameworks</a>
+        </div>
+      )}
+    </section>
+
+    <section class="course-section" aria-labelledby="archived-courses">
+      <h2 id="archived-courses">Archived courses</h2>
+      <p class="course-section-intro">Past course outlines, kept for reference. These programmes are not currently offered.</p>
+      <div class="course-grid">
+        {archivedCourses.map((course) => (
+          <article class="course-card">
+            <span class="course-status">Archived</span>
+            <h3><a href={`/course/${course.slug}`}>{course.title}</a></h3>
+            <p>{course.summary}</p>
+            <p class="course-meta">{course.format}</p>
+            <a class="course-text-link" href={`/course/${course.slug}`}>View archived course</a>
+          </article>
+        ))}
+      </div>
+    </section>
+  </main>
+  <SiteFooter />
+</BaseLayout>
