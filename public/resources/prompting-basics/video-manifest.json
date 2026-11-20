@@ -1,0 +1,38 @@
+{
+  "file": "pal-prompting-basics-v2.mp4",
+  "bytes": 2822153,
+  "sha256": "e7751507690e19b822bcbbd54786bb8edad930fb785fa62866a4bad5a2007832",
+  "duration_s": 42.0,
+  "width": 1080,
+  "height": 1920,
+  "fps": "30/1",
+  "video_codec": "h264",
+  "pixel_format": "yuv420p",
+  "audio": [
+    {
+      "codec": "aac",
+      "sample_rate": "48000",
+      "channels": 2
+    }
+  ],
+  "sample_times_s": [
+    1.5,
+    5,
+    10,
+    17,
+    25,
+    32,
+    38,
+    40.8
+  ],
+  "visual_review": "Reviewed all scene samples and the corrected 32-second takeaway: no text clipping/overlap in inspected frames. The invoice task also confirmed at 28 seconds in v1; that scene is unchanged.",
+  "title": "Show AI what you mean",
+  "current_version": 2,
+  "destination_url": "https://prompt-alchemist-labs.vercel.app/resource/prompting-basics",
+  "production": "QwenWork-authored SceneShift plan; deterministic canvas frames; ffmpeg MP4/AAC",
+  "concept_source": "https://github.com/microsoft/generative-ai-for-beginners/blob/main/04-prompt-engineering-fundamentals/README.md#using-examples",
+  "model_comparison_performed": false,
+  "audio_origin": "Locally synthesized original oscillator music and cue tones; no narration",
+  "hashmeta_connection": "No live Hashmeta API/MCP connection. This production used PAL public resource URLs.",
+  "source_handoff_files": 13
+}

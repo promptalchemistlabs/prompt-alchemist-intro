@@ -11,6 +11,7 @@ export interface Resource {
   cover: string;
   pdf: string;
   pack: string;
+  video?: { src: string; poster: string; duration: string; transcript: string };
   slides: { src: string; title: string; alt: string }[];
   prompts: { id: string; title: string; count: string; description: string; text: string; download: string }[];
 }
@@ -27,6 +28,12 @@ export const resources: Resource[] = [{
   cover: `${base}/slide-1.png`,
   pdf: `${base}/pal-prompting-basics.pdf`,
   pack: `${base}/pal-prompting-basics.zip`,
+  video: {
+    src: `${base}/pal-prompting-basics-42s.mp4`,
+    poster: `${base}/pal-prompting-basics-video-poster.png`,
+    duration: '42 seconds',
+    transcript: 'One prompt. Three ways to guide AI.\n\nA shot is one example shown with its answer.\n\nThe same instruction is used throughout: Rewrite politely. Keep deadlines. Use 15 words or fewer. Return only the rewritten message.\n\nZero-shot: no examples. Give the instruction and the new message: Send the invoice today. Leave Output blank for the AI.\n\nOne-shot: show one finished example, then ask your real task. Example input: Check the draft. Example output: Could you please check the draft? The new task is still Send the invoice today.\n\nFew-shot: give several relevant examples. Three are shown: Check the draft → Could you please check the draft? Need the report by Friday → Could you send the report by Friday? Tell me the status → Could you share a status update? Then ask the same invoice task.\n\nSame task. One possible result: Could you please send the invoice today? This result is illustrative, not a recorded model comparison.\n\nDeadline kept. Start simple: more examples are not automatically better.\n\nTry all three. Get PAL’s free prompting starter on this page.',
+  },
   slides: [
     { src: `${base}/slide-1.png`, title: 'What is a shot?', alt: 'Illustrated introduction: a shot is an example input paired with its desired output. Zero-shot has no examples, one-shot has one, and few-shot has several.' },
     { src: `${base}/slide-2.png`, title: 'Zero-shot', alt: 'Zero-shot: give clear instructions without examples. Rewrite the invoice request politely, preserve the deadline and use 15 words or fewer.' },

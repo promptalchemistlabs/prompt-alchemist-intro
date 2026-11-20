@@ -32,9 +32,19 @@
 .resource-detail-hero h1 { max-width: 38rem; }
 .resource-actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1.75rem; }
 .resource-download-note { font-size: .875rem; line-height: 1.6; color: var(--color-mist-dim); margin-top: 1rem; max-width: 30rem; }
+.resource-watch-link { display: inline-block; margin-top: 1.25rem; }
 .resource-hero-art { display: block; transform: rotate(3deg); margin: .5rem 1rem .5rem 0; }
 .resource-hero-art img { width: 100%; height: auto; box-shadow: 10px 12px 0 #3e382e; border: 1px solid var(--color-border-bright); }
 .resource-section { padding: 2.75rem 0; border-top: 1px solid var(--color-border); }
+.resource-video-layout { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, 1.2fr); gap: 3rem; align-items: center; }
+.resource-video { display: block; width: min(100%, 23rem); aspect-ratio: 9 / 16; margin: 0 auto; border: 1px solid var(--color-border-bright); border-radius: .75rem; background: #141311; }
+.resource-video-notes h3 { font-family: var(--font-display); font-size: 1.8rem; line-height: 1.3; margin-bottom: 1rem; }
+.resource-video-notes p { color: var(--color-mist-dim); font-size: 1.0625rem; line-height: 1.7; }
+.resource-video-notes p + p { margin-top: 1rem; }
+.resource-video-notes .resource-actions { align-items: center; }
+.resource-video-transcript { margin-top: 1.75rem; border-top: 1px solid var(--color-border); padding-top: 1rem; }
+.resource-video-transcript summary { color: var(--color-ember); cursor: pointer; line-height: 1.6; }
+.resource-video-transcript p { margin-top: 1rem; white-space: pre-line; font-size: 1rem; }
 .resource-reader { border: 1px solid var(--color-border-bright); border-radius: .875rem; overflow: hidden; background: var(--color-surface-deep); }
 .resource-reader-toolbar { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1rem 1.25rem; border-bottom: 1px solid var(--color-border); }
 .resource-reader-toolbar > p { color: var(--color-mist-dim); font-size: .9375rem; }
@@ -74,6 +84,7 @@
 .resource-sources p + p { margin-top: .5rem; }
 .resource-sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
 @media (max-width: 46rem) {
+  .resource-video-layout { grid-template-columns: 1fr; gap: 2rem; }
   .resource-main { padding-inline: 1.25rem; }
   .resource-library-hero { padding: 3rem 0; }
   .resource-card { grid-template-columns: 1fr; }

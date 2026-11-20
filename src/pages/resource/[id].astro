@@ -29,11 +29,36 @@ const { resource } = Astro.props;
           <a class="resource-button" href={resource.pack} download>Get the full starter pack</a>
         </div>
         <p class="resource-download-note">The pack includes the PDF, five carousel images and copyable prompts.</p>
+        {resource.video && <a class="resource-text-link resource-watch-link" href="#video">Watch the quick lesson</a>}
       </div>
       <a class="resource-hero-art" href="#visual-guide" aria-label="Read the visual guide on this page">
         <img src={resource.cover} alt="Cover of the illustrated guide: Show AI what you mean." width="1080" height="1350" loading="eager" decoding="async" />
       </a>
     </header>
+
+    {resource.video && (
+      <section class="resource-section" id="video" aria-labelledby="resource-video-title">
+        <div class="resource-section-heading">
+          <div><p class="resource-eyebrow">Watch the idea in action</p><h2 id="resource-video-title">One prompt. Three approaches.</h2></div>
+          <p>{resource.video.duration} · A quick visual lesson.</p>
+        </div>
+        <div class="resource-video-layout">
+          <video class="resource-video" controls playsinline preload="metadata" poster={resource.video.poster} aria-label="PAL's illustrated beginner lesson on zero-shot, one-shot and few-shot prompting">
+            <source src={resource.video.src} type="video/mp4" />
+            Your browser does not support embedded video. <a href={resource.video.src}>Download the video</a>.
+          </video>
+          <div class="resource-video-notes">
+            <h3>See what an example changes.</h3>
+            <p>The same instruction and invoice request, with zero, one or several examples to show the style you want.</p>
+            <p>Then try the copyable prompts below. Start simple and judge the result yourself.</p>
+            <div class="resource-actions">
+              <a class="resource-button resource-button-primary" href={resource.video.src} download>Download the video</a>
+            </div>
+            <details class="resource-video-transcript"><summary>Read the video transcript</summary><p>{resource.video.transcript}</p></details>
+          </div>
+        </div>
+      </section>
+    )}
 
     <section class="resource-section" id="visual-guide" aria-labelledby="visual-guide-title">
       <div class="resource-section-heading">
